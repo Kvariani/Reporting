@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Options Skin="Visual Studio 2013 Blue" UIType="TabbedMDI" FormStyle="Ribbon" DataAccessMode="Server" EnableHtmlFormatting="True">
+    <RibbonOptions RibbonControlStyle="Office2013" />
+  </Options>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="16.1.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.1.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="16.1.6.0" IsNewNode="True" />
+  </SchemaModules>
+</Application>

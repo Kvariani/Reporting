@@ -3,3 +3,12 @@
 ################################################################################
 
 /DoSo.Reporting/bin/Debug
+/Common.Win
+/DoSoReporting.Module/bin/Debug
+/DoSoReporting.Module.Win/bin/Debug
+/DoSoReporting.Web/bin
+/DoSoReporting.Web/obj/Debug
+/DoSoReporting.Win/bin/Debug
+/DoSoReporting.Win/obj/Debug
+/DXApplication2/NewBaseModule
+/MessageSending/DoSoMessageSendService/obj/Debug
