@@ -12,3 +12,5 @@
 /DoSoReporting.Win/obj/Debug
 /DXApplication2/NewBaseModule
 /MessageSending/DoSoMessageSendService/obj/Debug
+bin/
+obj/

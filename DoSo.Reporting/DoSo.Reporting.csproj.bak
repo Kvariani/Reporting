@@ -74,6 +74,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Dashboard.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v16.1.Win, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v16.1.UI, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -93,11 +95,21 @@
     <Reference Include="DevExpress.Xpo.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraEditors.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraNavBar.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Charts.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v16.1.Wizard, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.PivotGrid.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.CodeParser.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v16.1.Extensions, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.RichEdit.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraRichEdit.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v16.1.Extensions, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraSpreadsheet.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
@@ -119,30 +131,75 @@
     <Compile Include="BusinessObjects\Base\DoSoExceptionLog.cs" />
     <Compile Include="BusinessObjects\Base\DoSoMessageBase.cs" />
     <Compile Include="BusinessObjects\Base\DoSoScheduleBase.cs" />
-    <Compile Include="BusinessObjects\Base\DoSoSmsServiceConfiguration.cs" />
+    <Compile Include="BusinessObjects\ConfigurationStatic.cs" />
+    <Compile Include="BusinessObjects\Reporting\DoSoReport.cs" />
+    <Compile Include="Controllers\DashboardNavigationController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\DashboardNavigationController.designer.cs">
+      <DependentUpon>DashboardNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessObjects\DoSoDashboard.cs" />
     <Compile Include="BusinessObjects\Email\DoSoEmail.cs" />
     <Compile Include="BusinessObjects\Email\DoSoEmailSchedule.cs" />
-    <Compile Include="BusinessObjects\Reporting\QueryParameter.cs" />
-    <Compile Include="BusinessObjects\Reporting\ReportDefinition.cs" />
-    <Compile Include="BusinessObjects\Reporting\ReportDefinitionGroup.cs" />
-    <Compile Include="BusinessObjects\Reporting\ReportExecution.cs" />
+    <Compile Include="BusinessObjects\NewXPLiteObjectEx.cs" />
     <Compile Include="BusinessObjects\Email\ScheduleQueryParameter.cs" />
-    <Compile Include="BusinessObjects\Reporting\Role2Report.cs" />
-    <Compile Include="BusinessObjects\Reporting\User2Report.cs" />
+    <Compile Include="Controllers\EditReportController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\EditReportController.Designer.cs">
+      <DependentUpon>EditReportController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\RefreshNavigationController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\RefreshNavigationController.designer.cs">
+      <DependentUpon>RefreshNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BusinessObjects\Reporting\QueryParameter.cs" />
     <Compile Include="BusinessObjects\SMS\DoSoSms.cs" />
     <Compile Include="BusinessObjects\SMS\DoSoSmsSchedule.cs" />
-    <Compile Include="BusinessObjects\Reporting\SqlQuery.cs" />
+    <Compile Include="Controllers\WinDashboardNavigationController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WinDashboardNavigationController.designer.cs">
+      <DependentUpon>WinDashboardNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\AddDashboardToScheduleController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\AddDashboardToScheduleController.Designer.cs">
+      <DependentUpon>AddDashboardToScheduleController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AddReportDataToScheduleController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\AddReportDataToScheduleController.Designer.cs">
       <DependentUpon>AddReportDataToScheduleController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AddReportToScheduleController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\AddReportToScheduleController.Designer.cs">
+      <DependentUpon>AddReportToScheduleController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ConfigurationStaticController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\CreateReport.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\CreateReport.Designer.cs">
       <DependentUpon>CreateReport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\DIsableUnusedControllers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\EditDashboardController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\EditDashboardController.Designer.cs">
+      <DependentUpon>EditDashboardController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\ExpireDoSoMessagesController.cs">
       <SubType>Component</SubType>
@@ -165,6 +222,12 @@
     <Compile Include="Controllers\DataSourceInitializationController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\PrevewEmailDashboardController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\PrevewEmailDashboardController.Designer.cs">
+      <DependentUpon>PrevewEmailDashboardController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\PrevewEmailReportController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -183,20 +246,27 @@
     <Compile Include="Controllers\ScheduleDataSourceController.Designer.cs">
       <DependentUpon>ScheduleDataSourceController.cs</DependentUpon>
     </Compile>
+    <Compile Include="DashboardDesignerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DashboardDesignerForm.Designer.cs">
+      <DependentUpon>DashboardDesignerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DoSoSheetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DoSoSheetForm.Designer.cs">
+      <DependentUpon>DoSoSheetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\DashboardViewEditor.cs" />
     <Compile Include="Editors\PopupExpressionPropertyEditorEx.cs" />
-    <Compile Include="Controllers\ParameterValueCustomMask_VC.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Generators\MailGenerator.cs" />
+    <Compile Include="Generators\SmsGenerator.cs" />
+    <Compile Include="PrintRibbonControllerResources.Designer.cs">
+      <DependentUpon>PrintRibbonControllerResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Include="Controllers\ParameterValueCustomMask_VC.Designer.cs">
-      <DependentUpon>ParameterValueCustomMask_VC.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\ShowReport.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\ShowReport.Designer.cs">
-      <DependentUpon>ShowReport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FastExportingMethod.cs" />
     <Compile Include="Senders\HS.cs" />
     <Compile Include="Senders\MailSender.cs" />
     <Compile Include="Senders\SmsSender.cs" />
@@ -205,11 +275,6 @@
     </Compile>
     <Compile Include="Module.Designer.cs">
       <DependentUpon>Module.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PrintRibbonControllerResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PrintRibbonControllerResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />
@@ -224,25 +289,48 @@
     <Compile Include="ReportDesignerForm.Designer.cs">
       <DependentUpon>ReportDesignerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="StaticValues.cs" />
     <Compile Include="XRDesignRibbonControllerResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>XRDesignRibbonControllerResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controllers\DashboardNavigationController.resx">
+      <DependentUpon>DashboardNavigationController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\EditReportController.resx">
+      <DependentUpon>EditReportController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\RefreshNavigationController.resx">
+      <DependentUpon>RefreshNavigationController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\WinDashboardNavigationController.resx">
+      <DependentUpon>WinDashboardNavigationController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\AddDashboardToScheduleController.resx">
+      <DependentUpon>AddDashboardToScheduleController.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controllers\AddReportDataToScheduleController.resx">
       <DependentUpon>AddReportDataToScheduleController.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\AddReportToScheduleController.resx">
+      <DependentUpon>AddReportToScheduleController.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controllers\CreateReport.resx">
       <DependentUpon>CreateReport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\EditDashboardController.resx">
+      <DependentUpon>EditDashboardController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\ExpireDoSoMessagesController.resx">
       <DependentUpon>ExpireDoSoMessagesController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\GenerateMessagesController.resx">
       <DependentUpon>GenerateMessagesController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\PrevewEmailDashboardController.resx">
+      <DependentUpon>PrevewEmailDashboardController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\PrevewEmailReportController.resx">
       <DependentUpon>PrevewEmailReportController.cs</DependentUpon>
@@ -253,8 +341,11 @@
     <EmbeddedResource Include="Controllers\ScheduleDataSourceController.resx">
       <DependentUpon>ScheduleDataSourceController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\ShowReport.resx">
-      <DependentUpon>ShowReport.cs</DependentUpon>
+    <EmbeddedResource Include="DashboardDesignerForm.resx">
+      <DependentUpon>DashboardDesignerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DoSoSheetForm.resx">
+      <DependentUpon>DoSoSheetForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Module.resx">
       <DependentUpon>Module.cs</DependentUpon>
@@ -305,13 +396,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DXApplication2\NewBaseModule\NewBaseModule.csproj">
-      <Project>{61b2c81a-1c59-432a-b838-d5d933f570ee}</Project>
-      <Name>NewBaseModule</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Generators\" />
+    <Folder Include="BusinessObjects\Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
