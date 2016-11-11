@@ -98,32 +98,40 @@ public static class HS
 
     public static void CreateConfigurationItems()
     {
-        using (var uow = new UnitOfWork(XpoDefault.DataLayer))
+        try
         {
-            var allConfigFromDb = uow.Query<ConfigurationStatic>().ToList();
+            using (var uow = new UnitOfWork(XpoDefault.DataLayer))
+            {
+                var allConfigFromDb = uow.Query<ConfigurationStatic>().ToList();
 
 
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSmsGenerator), ParameterTypeEnum.Bool, "Main");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableMailGenerator), ParameterTypeEnum.Bool, "Main");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSmsSender), ParameterTypeEnum.Bool, "Main");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableMailSender), ParameterTypeEnum.Bool, "Main");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(GeteratedFilesName), ParameterTypeEnum.String, "Main");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsBaseUrl), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientUsername), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientPassword), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientID), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsServiceID), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsSenderName), ParameterTypeEnum.String, "SMS");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsSuccessCode), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSmsGenerator), ParameterTypeEnum.Bool, "Main");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableMailGenerator), ParameterTypeEnum.Bool, "Main");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSmsSender), ParameterTypeEnum.Bool, "Main");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableMailSender), ParameterTypeEnum.Bool, "Main");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(GeteratedFilesName), ParameterTypeEnum.String, "Main");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsBaseUrl), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientUsername), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientPassword), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsClientID), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsServiceID), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsSenderName), ParameterTypeEnum.String, "SMS");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmsSuccessCode), ParameterTypeEnum.String, "SMS");
 
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpServer), ParameterTypeEnum.String, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpUserName), ParameterTypeEnum.String, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpPassword), ParameterTypeEnum.String, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EMailFrom), ParameterTypeEnum.String, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSsl), ParameterTypeEnum.Bool, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(UseDefaultCredentials), ParameterTypeEnum.Bool, "EMail");
-            uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpPort), ParameterTypeEnum.Int, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpServer), ParameterTypeEnum.String, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpUserName), ParameterTypeEnum.String, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpPassword), ParameterTypeEnum.String, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EMailFrom), ParameterTypeEnum.String, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(EnableSsl), ParameterTypeEnum.Bool, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(UseDefaultCredentials), ParameterTypeEnum.Bool, "EMail");
+                uow.CreateConfigItemIfNotExists(allConfigFromDb, nameof(SmtpPort), ParameterTypeEnum.Int, "EMail");
+            }
         }
+        catch (Exception ex)
+        {
+            
+        }
+     
     }
 
     public static void CreateConfigItemIfNotExists(this UnitOfWork uow, List<ConfigurationStatic> existingItems, string configName, ParameterTypeEnum type, string groupName)

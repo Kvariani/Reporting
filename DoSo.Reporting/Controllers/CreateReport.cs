@@ -24,6 +24,7 @@ namespace DoSo.Reporting.Controllers
 
         private void NewReport_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
+            //Slow();
             MaybeFast();
 
             //var newReport = objectSpace.CreateObject<ReportExecution>();
@@ -51,59 +52,90 @@ namespace DoSo.Reporting.Controllers
 
                     var ds = control.Document.MailMergeDataSource as DevExpress.DataAccess.Sql.SqlDataSource;
                     ds.Fill();
-                    control.ActiveWorksheet.Import(ds.Result[0], 0, 0);
+                    // Mail Merge details
+                    var outDocument = new Workbook();
+                    outDocument.Worksheets.Add(HS.MyTempName);
+                    outDocument.Worksheets.RemoveAt(0);
+                    foreach (var item in control.Document.Worksheets)
+                    {
+                        control.Document.Worksheets.ActiveWorksheet = item;
+                        if (control.ActiveWorksheet.DefinedNames.Any())
+                        {
+                            var docs = control.Document.GenerateMailMergeDocuments();
+                            foreach (var doc in docs)
+                            {
+                                foreach (var sheet in doc.Worksheets)
+                                {
+                                    outDocument.Worksheets.Add(sheet.Name);
+                                    outDocument.Worksheets.LastOrDefault().CopyFrom(sheet);
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            outDocument.Worksheets.Add(item.Name);
+                            var userdRange = item.GetDataRange().Where(x => x.HasFormula && x.Formula.ToLower().Contains("=field("));
+                            if (userdRange.Any())
+                            {
+                                foreach (var rangeItem in userdRange)
+                                {
+                                    if (rangeItem.RowIndex > 0)
+                                    {
+                                        var headerCell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex - 1, rangeItem.ColumnIndex];
+                                        if (headerCell.Value.IsEmpty)
+                                            headerCell.SetValue(rangeItem.DisplayText);
+                                    }
+                                    var dataMember = control.Document.MailMergeDataMember;
+                                    var splitedItem = rangeItem.DisplayText.Split('.');
+                                    if (splitedItem.Count() > 1)
+                                        dataMember = splitedItem.FirstOrDefault().Replace("[", "");
+
+                                    var query = ds.Result.Where(x => x.Name == dataMember).SelectMany(x => x.Columns).Where(x => x.Name == splitedItem.LastOrDefault().Replace("]", "").Replace("[", "")).FirstOrDefault() as DevExpress.DataAccess.Native.Sql.ResultColumn;
+
+                                    for (int i = 0; i < query.Count; i++)
+                                    {
+                                        var value = query.Values[i];
+                                        var cell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex + i, rangeItem.ColumnIndex];
+                                        cell.SetValue(value);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                var lastIndex = 0;
+                                foreach (var result in ds.Result)
+                                {
+                                    outDocument.Worksheets.LastOrDefault().Import(result, 1, lastIndex);
+                                    foreach (var column in result.Columns)
+                                    {
+                                        var headerCell = outDocument.Worksheets.LastOrDefault().Cells[0, lastIndex];
+                                        if (headerCell.Value.IsEmpty)
+                                            headerCell.SetValue(column.Name);
+                                        lastIndex++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    outDocument.Worksheets.RemoveAt(0);
 
                     var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
+                    outDocument.SaveDocument(fullName);
+                    return;
+
+                    var sdfa = control.ActiveWorksheet.DefinedNames.Where(x => x == x);
+                    control.ActiveWorksheet.Import(ds.Result[0], 0, 0);
+
+
                     control.ActiveWorksheet.Workbook.SaveDocument(fullName);
 
                     var b = $"{start} <> {DateTime.Now}";
                     var a = start;
                 }
             }
-
-            //var template = new SpreadsheetControl();
-            ////var stream = new FileStream(@"C:\Users\Beka\Desktop\Test.xlsx", FileMode.Open);
-
-            //var newControl = new SpreadsheetControl();
-            //template.LoadDocument(@"C:\Users\Beka\Desktop\Test.xlsx");
-            //newControl.CreateNewDocument();
-
-            //for (int i = 0; i < ds.Tables.Count; i++)
-            //{
-            //    if (i > 0)
-            //        newControl.Document.Worksheets.Add();
-            //    var worksheet = newControl.Document.Worksheets[i];
-            //    worksheet.CopyFrom(template.Document.Worksheets[i]);
-            //    var range = template.Document.Worksheets[i].GetUsedRange();
-            //    worksheet.Cells[range.TopRowIndex, range.LeftColumnIndex].CopyFrom(range, PasteSpecial.Borders | PasteSpecial.NumberFormats | PasteSpecial.ColumnWidths | PasteSpecial.Formats);
-
-            //    worksheet.Import(ds.Tables[i], true, 1, 1);
-
-            //}
-
-            //for (int i = 0; i < template.Document.Worksheets.Count; i++)
-            //{
-            //    var sheet = template.Document.Worksheets[i];
-            //    var range = sheet.GetDataRange().Where(x => !x.Value.IsEmpty);
-            //    var worksheet = newControl.Document.Worksheets[i];
-
-            //    foreach (var item in range)
-            //    {
-            //        worksheet.Cells[item.RowIndex, item.ColumnIndex].Value = item.Value;
-            //    }
-
-            //    //worksheet.Cells[range.TopRowIndex, range.LeftColumnIndex].CopyFrom(range, PasteSpecial.Values);
-            //    //foreach (var item in range.Where(x => !x.Value.IsEmpty))
-            //    //    worksheet.Cells.CopyFrom(range, PasteSpecial.All);
-            //    //    worksheet.Range.
-            //    //worksheet.InsertCells(range);
-            //    //worksheet.Cells[item.RowIndex, item.ColumnIndex].SetValue(item.Value);
-            //}
-
-            //newControl.ActiveWorksheet.Workbook.SaveDocument(reportName);
-            ////ExportToExcel(list, path);
-            //return reportName;
         }
+
 
         public void Slow()
         {
@@ -124,6 +156,24 @@ namespace DoSo.Reporting.Controllers
                     var start = DateTime.Now;
 
                     var docs = control.Document.GenerateMailMergeDocuments();
+
+                    foreach (var item in docs)
+                    {
+                        if (control.Document.Worksheets.Count > 1)
+                        {
+                            for (int i = 1; i < control.Document.Worksheets.Count; i++)
+                            {
+                                control.Document.Worksheets.ActiveWorksheet = control.Document.Worksheets[i];
+                                var docs2 = control.Document.GenerateMailMergeDocuments();
+                                foreach (var secondWorkSheet in docs2.SelectMany(x => x.Worksheets))
+                                {
+                                    item.Worksheets.Add();
+                                    var newSheet = item.Worksheets[i];
+                                    newSheet.CopyFrom(secondWorkSheet);
+                                }
+                            }
+                        }
+                    }
                     foreach (var doc in docs)
                     {
                         var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
@@ -134,5 +184,48 @@ namespace DoSo.Reporting.Controllers
                 }
             }
         }
+
+        //var template = new SpreadsheetControl();
+        ////var stream = new FileStream(@"C:\Users\Beka\Desktop\Test.xlsx", FileMode.Open);
+
+        //var newControl = new SpreadsheetControl();
+        //template.LoadDocument(@"C:\Users\Beka\Desktop\Test.xlsx");
+        //newControl.CreateNewDocument();
+
+        //for (int i = 0; i < ds.Tables.Count; i++)
+        //{
+        //    if (i > 0)
+        //        newControl.Document.Worksheets.Add();
+        //    var worksheet = newControl.Document.Worksheets[i];
+        //    worksheet.CopyFrom(template.Document.Worksheets[i]);
+        //    var range = template.Document.Worksheets[i].GetUsedRange();
+        //    worksheet.Cells[range.TopRowIndex, range.LeftColumnIndex].CopyFrom(range, PasteSpecial.Borders | PasteSpecial.NumberFormats | PasteSpecial.ColumnWidths | PasteSpecial.Formats);
+
+        //    worksheet.Import(ds.Tables[i], true, 1, 1);
+
+        //}
+
+        //for (int i = 0; i < template.Document.Worksheets.Count; i++)
+        //{
+        //    var sheet = template.Document.Worksheets[i];
+        //    var range = sheet.GetDataRange().Where(x => !x.Value.IsEmpty);
+        //    var worksheet = newControl.Document.Worksheets[i];
+
+        //    foreach (var item in range)
+        //    {
+        //        worksheet.Cells[item.RowIndex, item.ColumnIndex].Value = item.Value;
+        //    }
+
+        //    //worksheet.Cells[range.TopRowIndex, range.LeftColumnIndex].CopyFrom(range, PasteSpecial.Values);
+        //    //foreach (var item in range.Where(x => !x.Value.IsEmpty))
+        //    //    worksheet.Cells.CopyFrom(range, PasteSpecial.All);
+        //    //    worksheet.Range.
+        //    //worksheet.InsertCells(range);
+        //    //worksheet.Cells[item.RowIndex, item.ColumnIndex].SetValue(item.Value);
+        //}
+
+        //newControl.ActiveWorksheet.Workbook.SaveDocument(reportName);
+        ////ExportToExcel(list, path);
+        //return reportName;
     }
 }

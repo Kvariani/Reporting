@@ -28,6 +28,8 @@ namespace DoSoReporting.Win
             Tracing.LocalUserAppDataPath = Application.LocalUserAppDataPath;
             Tracing.Initialize();
             DoSoReportingWindowsFormsApplication winApplication = new DoSoReportingWindowsFormsApplication();
+
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
             // Refer to the https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112680.aspx help article for more details on how to provide a custom splash form.
             //winApplication.SplashScreen = new DevExpress.ExpressApp.Win.Utils.DXSplashScreen("YourSplashImage.png");
             if (ConfigurationManager.ConnectionStrings["ConnectionString"] != null)
@@ -57,6 +59,11 @@ namespace DoSoReporting.Win
             {
                 winApplication.HandleException(e);
             }
+        }
+
+        private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            
         }
     }
 }
