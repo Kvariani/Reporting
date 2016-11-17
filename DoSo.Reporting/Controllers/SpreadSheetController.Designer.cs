@@ -29,24 +29,27 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.simpleAction1 = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
+            this.simpleAction_OpenWorkBook = new DevExpress.ExpressApp.Actions.SimpleAction(this.components);
             // 
             // simpleAction1
             // 
-            this.simpleAction1.Caption = null;
-            this.simpleAction1.ConfirmationMessage = null;
-            this.simpleAction1.Id = "a02d670f-3ef5-4c1e-b764-1594a408c1bc";
-            this.simpleAction1.ToolTip = null;
-            this.simpleAction1.Execute += new DevExpress.ExpressApp.Actions.SimpleActionExecuteEventHandler(this.simpleAction1_Execute);
+            simpleAction_OpenWorkBook.Caption = null;
+            simpleAction_OpenWorkBook.ConfirmationMessage = null;
+            simpleAction_OpenWorkBook.ImageName = "OpenWorkBook";
+            simpleAction_OpenWorkBook.Id = "simpleAction_OpenWorkBook";
+            simpleAction_OpenWorkBook.Caption = "OpenWorkBook";
+            simpleAction_OpenWorkBook.ToolTip = null;
+            simpleAction_OpenWorkBook.Execute += SimpleAction_OpenWorkBook_Execute;
             // 
             // SpreadSheetController
             // 
-            this.Actions.Add(this.simpleAction1);
+            this.Actions.Add(this.simpleAction_OpenWorkBook);
 
         }
 
+
         #endregion
 
-        private DevExpress.ExpressApp.Actions.SimpleAction simpleAction1;
+        private DevExpress.ExpressApp.Actions.SimpleAction simpleAction_OpenWorkBook;
     }
 }

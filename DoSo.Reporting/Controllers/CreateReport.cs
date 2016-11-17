@@ -1,5 +1,6 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Spreadsheet;
 using DevExpress.Xpo;
@@ -25,7 +26,24 @@ namespace DoSo.Reporting.Controllers
         private void NewReport_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             //Slow();
-            MaybeFast();
+
+            var os = Application.CreateObjectSpace() as XPObjectSpace;
+            var view = Application.CreateDetailView(os, new ReportExecution(os.Session));
+            var svp = new ShowViewParameters
+            {
+                CreatedView = view,
+                NewWindowTarget = NewWindowTarget.Default,
+                TargetWindow = TargetWindow.NewModalWindow,
+                Context = TemplateContext.PopupWindow
+            };
+            var dialogController = new DialogController();
+            svp.Controllers.Add(dialogController);
+            dialogController.AcceptAction.Execute += (s, ee) => AcceptAction_Execute(s, ee, view);
+            Application.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
+
+
+
+
 
             //var newReport = objectSpace.CreateObject<ReportExecution>();
             //e.ShowViewParameters.NewWindowTarget = NewWindowTarget.Separate;
@@ -33,8 +51,12 @@ namespace DoSo.Reporting.Controllers
             //e.ShowViewParameters.CreatedView = Application.CreateDetailView(objectSpace, newReport, true);
         }
 
+        private void AcceptAction_Execute(object sender, SimpleActionExecuteEventArgs e, DetailView view)
+        {
+            MaybeFast(e.CurrentObject as ReportExecution, view);
+        }
 
-        public void MaybeFast()
+        public void MaybeFast(ReportExecution reportExecution, DetailView view)
         {
             var objectSpace = Application.CreateObjectSpace() as XPObjectSpace;
             var report = objectSpace.Session.Query<DoSoReport>().FirstOrDefault();
@@ -51,6 +73,12 @@ namespace DoSo.Reporting.Controllers
                     var start = DateTime.Now;
 
                     var ds = control.Document.MailMergeDataSource as DevExpress.DataAccess.Sql.SqlDataSource;
+                    var parameters = ds.Queries.SelectMany(x => x.Parameters);
+                    foreach (var item in parameters)
+                    {
+                        var editorWithValue = view.FindItem(item.Name);
+
+                    }
                     ds.Fill();
                     // Mail Merge details
                     var outDocument = new Workbook();
@@ -69,7 +97,6 @@ namespace DoSo.Reporting.Controllers
                                     outDocument.Worksheets.Add(sheet.Name);
                                     outDocument.Worksheets.LastOrDefault().CopyFrom(sheet);
                                 }
-
                             }
                         }
                         else
@@ -137,53 +164,53 @@ namespace DoSo.Reporting.Controllers
         }
 
 
-        public void Slow()
-        {
-            var objectSpace = Application.CreateObjectSpace() as XPObjectSpace;
-            var report = objectSpace.Session.Query<DoSoReport>().FirstOrDefault();
+        //public void Slow()
+        //{
+        //    var objectSpace = Application.CreateObjectSpace() as XPObjectSpace;
+        //    var report = objectSpace.Session.Query<DoSoReport>().FirstOrDefault();
 
-            var xml = report?.Xml;
-            if (!string.IsNullOrEmpty(xml))
-            {
-                using (var control = new SpreadsheetControl())
-                {
-                    using (var ms = new MemoryStream(Convert.FromBase64String(xml)))
-                        control.LoadDocument(ms, DocumentFormat.OpenXml);
+        //    var xml = report?.Xml;
+        //    if (!string.IsNullOrEmpty(xml))
+        //    {
+        //        using (var control = new SpreadsheetControl())
+        //        {
+        //            using (var ms = new MemoryStream(Convert.FromBase64String(xml)))
+        //                control.LoadDocument(ms, DocumentFormat.OpenXml);
 
-                    if (control.Document.MailMergeParameters.Any())
-                        throw new InvalidOperationException("Need Parameters");
+        //            if (control.Document.MailMergeParameters.Any())
+        //                throw new InvalidOperationException("Need Parameters");
 
-                    var start = DateTime.Now;
+        //            var start = DateTime.Now;
 
-                    var docs = control.Document.GenerateMailMergeDocuments();
+        //            var docs = control.Document.GenerateMailMergeDocuments();
 
-                    foreach (var item in docs)
-                    {
-                        if (control.Document.Worksheets.Count > 1)
-                        {
-                            for (int i = 1; i < control.Document.Worksheets.Count; i++)
-                            {
-                                control.Document.Worksheets.ActiveWorksheet = control.Document.Worksheets[i];
-                                var docs2 = control.Document.GenerateMailMergeDocuments();
-                                foreach (var secondWorkSheet in docs2.SelectMany(x => x.Worksheets))
-                                {
-                                    item.Worksheets.Add();
-                                    var newSheet = item.Worksheets[i];
-                                    newSheet.CopyFrom(secondWorkSheet);
-                                }
-                            }
-                        }
-                    }
-                    foreach (var doc in docs)
-                    {
-                        var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
-                        doc.SaveDocument(fullName);
-                    }
-                    var b = $"{start} <> {DateTime.Now}";
-                    var a = start;
-                }
-            }
-        }
+        //            foreach (var item in docs)
+        //            {
+        //                if (control.Document.Worksheets.Count > 1)
+        //                {
+        //                    for (int i = 1; i < control.Document.Worksheets.Count; i++)
+        //                    {
+        //                        control.Document.Worksheets.ActiveWorksheet = control.Document.Worksheets[i];
+        //                        var docs2 = control.Document.GenerateMailMergeDocuments();
+        //                        foreach (var secondWorkSheet in docs2.SelectMany(x => x.Worksheets))
+        //                        {
+        //                            item.Worksheets.Add();
+        //                            var newSheet = item.Worksheets[i];
+        //                            newSheet.CopyFrom(secondWorkSheet);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            foreach (var doc in docs)
+        //            {
+        //                var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
+        //                doc.SaveDocument(fullName);
+        //            }
+        //            var b = $"{start} <> {DateTime.Now}";
+        //            var a = start;
+        //        }
+        //    }
+        //}
 
         //var template = new SpreadsheetControl();
         ////var stream = new FileStream(@"C:\Users\Beka\Desktop\Test.xlsx", FileMode.Open);

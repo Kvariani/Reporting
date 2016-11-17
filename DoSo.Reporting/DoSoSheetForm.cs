@@ -12,9 +12,9 @@ namespace DoSoReporting.Module
 {
     public partial class DoSoSheetFrom : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        public DoSoSheetFrom()
+        public DoSoSheetFrom(bool addMailMerge)
         {
-            InitializeComponent();
+            InitializeComponent(addMailMerge);
         }
     }
 }

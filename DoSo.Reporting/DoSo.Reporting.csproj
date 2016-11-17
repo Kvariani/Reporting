@@ -83,6 +83,7 @@
     <Reference Include="DevExpress.ExpressApp.ReportsV2.Win.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Security.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Validation.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Win.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Xpo.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Office.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -133,6 +134,8 @@
     <Compile Include="BusinessObjects\Base\DoSoScheduleBase.cs" />
     <Compile Include="BusinessObjects\ConfigurationStatic.cs" />
     <Compile Include="BusinessObjects\Reporting\DoSoReport.cs" />
+    <Compile Include="BusinessObjects\Reporting\QueryParameter.cs" />
+    <Compile Include="BusinessObjects\Reporting\ReportExecution.cs" />
     <Compile Include="Controllers\DashboardNavigationController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -156,9 +159,20 @@
     <Compile Include="Controllers\RefreshNavigationController.designer.cs">
       <DependentUpon>RefreshNavigationController.cs</DependentUpon>
     </Compile>
-    <Compile Include="BusinessObjects\Reporting\QueryParameter.cs" />
     <Compile Include="BusinessObjects\SMS\DoSoSms.cs" />
     <Compile Include="BusinessObjects\SMS\DoSoSmsSchedule.cs" />
+    <Compile Include="Controllers\ReportExecutionViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ReportExecutionViewController.Designer.cs">
+      <DependentUpon>ReportExecutionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\SpreadSheetController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\SpreadSheetController.Designer.cs">
+      <DependentUpon>SpreadSheetController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\WinDashboardNavigationController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -192,7 +206,7 @@
     <Compile Include="Controllers\CreateReport.Designer.cs">
       <DependentUpon>CreateReport.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\DIsableUnusedControllers.cs">
+    <Compile Include="Controllers\DisableUnusedControllers.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\EditDashboardController.cs">
@@ -304,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\RefreshNavigationController.resx">
       <DependentUpon>RefreshNavigationController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\SpreadSheetController.resx">
+      <DependentUpon>SpreadSheetController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\WinDashboardNavigationController.resx">
       <DependentUpon>WinDashboardNavigationController.cs</DependentUpon>

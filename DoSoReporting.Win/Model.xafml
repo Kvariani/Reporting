@@ -8,4 +8,214 @@
     <SchemaModule Name="SystemModule" Version="16.1.6.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="16.1.6.0" IsNewNode="True" />
   </SchemaModules>
+  <Views>
+    <DetailView Id="AboutInfo_DetailView">
+      <Items>
+        <StaticText Id="AboutText" Text="DoSoReporting&lt;br&gt;Version 1.0.6143" />
+        <StaticImage Id="Logo" ImageName="ExpressAppLogo" />
+      </Items>
+    </DetailView>
+    <ListView Id="DoSoEmail_ListView">
+      <Columns>
+        <ColumnInfo Id="EmailTo" Width="64" Index="0" />
+        <ColumnInfo Id="EmailCC" Width="64" Index="1" />
+        <ColumnInfo Id="EmailSubject" Width="136" Index="2" />
+        <ColumnInfo Id="EmailBody" Width="322" Index="3" />
+        <ColumnInfo Id="SendingDate" Width="61" Index="4" />
+        <ColumnInfo Id="SourceFilePath" Width="129" Index="5" />
+        <ColumnInfo Id="TargetFilePath" Width="64" Index="6" />
+        <ColumnInfo Id="DoSoReportSchedule" Width="63" Index="7" />
+        <ColumnInfo Id="ReportData" Width="63" Index="8" />
+        <ColumnInfo Id="ExportFileFormat" Width="84" Index="9" />
+      </Columns>
+    </ListView>
+    <DetailView Id="DoSoReportSchedule_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="51.126927639383155">
+            <LayoutItem Id="ScheduleDescription" ViewItem="ScheduleDescription" Index="0" RelativeSize="7.4245939675174011" IsNewNode="True" />
+            <LayoutGroup Id="Autoe5588daf-2e58-4706-bc5a-1f4ba75de6d8" ShowCaption="False" Caption="Autoe5588daf-2e58-4706-bc5a-1f4ba75de6d8(4)" Direction="Horizontal" Index="1" RelativeSize="36.426914153132252" IsNewNode="True">
+              <LayoutGroup Id="Item4" ShowCaption="True" Caption="Excel Report" CaptionLocation="Top" Index="0" RelativeSize="26.285046728971963" IsNewNode="True">
+                <LayoutItem Id="ReportDefinition" ViewItem="ReportDefinition" Index="0" RelativeSize="26.016260162601625" IsNewNode="True" />
+                <LayoutItem Id="QueryParametersCollection" TextAlignMode="AutoSize" ViewItem="QueryParametersCollection" Index="1" RelativeSize="73.983739837398375" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Item3" ShowCaption="True" Caption="Report Data" CaptionLocation="Top" Index="1" RelativeSize="35.864485981308412" IsNewNode="True">
+                <LayoutItem Id="ReportData" ViewItem="ReportData" Index="0" RelativeSize="26.016260162601625" IsNewNode="True" />
+                <LayoutItem Id="ExportFileFormat" ViewItem="ExportFileFormat" Index="1" RelativeSize="73.983739837398375" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Item1" ShowCaption="True" Caption="Dashboard" CaptionLocation="Top" Index="2" RelativeSize="37.850467289719624" IsNewNode="True">
+                <LayoutItem Id="DashboardWidth" ViewItem="DashboardWidth" Index="0" RelativeSize="26.016260162601625" IsNewNode="True" />
+                <LayoutItem Id="DashboardHeight" ViewItem="DashboardHeight" Index="1" RelativeSize="73.983739837398375" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Auto025242d9-286a-4d40-9de6-395571f67ad1" ShowCaption="False" Caption="Auto025242d9-286a-4d40-9de6-395571f67ad1(14)" Direction="Horizontal" Index="2" RelativeSize="56.148491879350345" IsNewNode="True">
+              <LayoutGroup Id="DoSoScheduleBase" ShowCaption="True" Caption="Schedule Configuration" Direction="Horizontal" Index="0" RelativeSize="26.285046728971963" IsNewNode="True">
+                <LayoutGroup Id="DoSoScheduleBase_col1" ShowCaption="False" TextAlignMode="AlignWithChildren" Index="0" RelativeSize="31.408775981524251" IsNewNode="True">
+                  <LayoutItem Id="IsActive" ViewItem="IsActive" Index="0" RelativeSize="14.903846153846153" IsNewNode="True" />
+                  <LayoutItem Id="Monday" ViewItem="Monday" Index="1" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Tuesday" ViewItem="Tuesday" Index="2" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Wednesday" ViewItem="Wednesday" Index="3" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Thursday" ViewItem="Thursday" Index="4" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Friday" ViewItem="Friday" Index="5" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Saturday" ViewItem="Saturday" Index="6" RelativeSize="11.057692307692308" IsNewNode="True" />
+                  <LayoutItem Id="Sunday" ViewItem="Sunday" Index="7" RelativeSize="18.75" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="DoSoScheduleBase_col2" ShowCaption="False" Index="1" RelativeSize="68.591224018475756" IsNewNode="True">
+                  <LayoutItem Id="ExecutionTime" ViewItem="ExecutionTime" Index="0" RelativeSize="15.384615384615385" IsNewNode="True" />
+                  <LayoutItem Id="ExecutionDate" ViewItem="ExecutionDate" Index="1" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="ExecutionMonth" ViewItem="ExecutionMonth" Index="2" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="RunEvery_Minute" ViewItem="RunEvery_Minute" Index="3" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="SkipExecutionDate" ViewItem="SkipExecutionDate" Index="4" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="NextExecutionDate" ViewItem="NextExecutionDate" Index="5" RelativeSize="38.46153846153846" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="Item2" ShowCaption="True" Caption="Message Configuration" CaptionLocation="Top" Direction="Horizontal" Index="1" RelativeSize="73.714953271028037" IsNewNode="True">
+                <LayoutGroup Id="Autob87c7ada-c5f7-49e5-9a3c-5bf6f4624b98" ShowCaption="False" Caption="Autob87c7ada-c5f7-49e5-9a3c-5bf6f4624b98(33)" Index="0" RelativeSize="60.321285140562246" IsNewNode="True">
+                  <LayoutItem Id="MessageTo" ViewItem="MessageTo" Index="0" RelativeSize="15.384615384615385" IsNewNode="True" />
+                  <LayoutItem Id="MessageCC" ViewItem="MessageCC" Index="1" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="MessageSubject" ViewItem="MessageSubject" Index="2" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="MessageBody" ViewItem="MessageBody" Index="3" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="SendingDateExpression" ViewItem="SendingDateExpression" Index="4" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="AttachedFilesExpression" ViewItem="AttachedFilesExpression" Index="5" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="ObjectKeyExpression" ViewItem="ObjectKeyExpression" Index="6" RelativeSize="11.538461538461538" IsNewNode="True" />
+                  <LayoutItem Id="ObjectTypeExpression" ViewItem="ObjectTypeExpression" Index="7" RelativeSize="15.384615384615385" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutItem Id="AlternativeText" ViewItem="AlternativeText" CaptionLocation="Top" Index="1" RelativeSize="39.678714859437754" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="DoSoReportSchedule" Removed="True" />
+            <LayoutGroup Id="DoSoScheduleBase" Removed="True" />
+            <LayoutGroup Id="NewXPLiteObjectEx" Removed="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="DoSoEmailsCollection" ShowCaption="True" Caption="Do So Emails Collection" TextAlignMode="AlignWithChildren" Index="1" RelativeSize="48.873072360616845" IsNewNode="True">
+            <LayoutItem Id="DoSoEmailsCollection" TextAlignMode="AutoSize" ViewItem="DoSoEmailsCollection" Index="0" RelativeSize="100" IsNewNode="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" Removed="True" />
+          <TabbedGroup Id="Tabs" Removed="True" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="DoSoReportSchedule_DoSoEmailsCollection_ListView">
+      <Columns>
+        <ColumnInfo Id="ID" Index="0" />
+        <ColumnInfo Id="EmailSubject" Index="1" />
+        <ColumnInfo Id="ObjectKey" Index="2" />
+        <ColumnInfo Id="SendingDate" Index="3" />
+        <ColumnInfo Id="TargetFilePath" Index="4" />
+        <ColumnInfo Id="ReportData" Index="5" />
+        <ColumnInfo Id="ExportFileFormat" Index="6" />
+      </Columns>
+    </ListView>
+    <ListView Id="DoSoReportSchedule_QueryParametersCollection_ListView">
+      <Columns>
+        <ColumnInfo Id="ParameterName" Width="148" />
+        <ColumnInfo Id="ParameterValueExression" Width="240" />
+      </Columns>
+    </ListView>
+    <ListView Id="DoSoSms_ListView">
+      <Columns>
+        <ColumnInfo Id="SmsText" Width="410" />
+        <ColumnInfo Id="DoSoSmsSchedule" Width="318" />
+        <ColumnInfo Id="SmsTo" Width="322" />
+      </Columns>
+    </ListView>
+    <DetailView Id="DoSoSmsSchedule_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutItem Id="ScheduleDescription" ViewItem="ScheduleDescription" Index="0" RelativeSize="3.7825059101654848" IsNewNode="True" />
+          <LayoutGroup Id="SimpleEditors" Direction="Horizontal" Index="1" RelativeSize="28.01418439716312">
+            <LayoutGroup Id="DoSoScheduleBase" Caption="Schedule Configuration" Index="0" RelativeSize="30.782710280373831">
+              <LayoutGroup Id="DoSoScheduleBase_col1" TextAlignMode="AlignWithChildren" RelativeSize="25.098039215686274">
+                <LayoutItem Id="IsActive" ViewItem="IsActive" Index="0" RelativeSize="15.5" IsNewNode="True" />
+                <LayoutItem Id="Monday" Index="1" RelativeSize="11.5" />
+                <LayoutItem Id="Tuesday" Index="2" RelativeSize="11.5" />
+                <LayoutItem Id="Wednesday" Index="3" RelativeSize="11.5" />
+                <LayoutItem Id="Thursday" Index="4" RelativeSize="11.5" />
+                <LayoutItem Id="Friday" Index="5" RelativeSize="11.5" />
+                <LayoutItem Id="Saturday" Index="6" RelativeSize="11.5" />
+                <LayoutItem Id="Sunday" Index="7" RelativeSize="15.5" />
+                <LayoutItem Id="DataSource" Removed="True" />
+                <LayoutItem Id="ExcelDataSource" Removed="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="DoSoScheduleBase_col2" RelativeSize="74.901960784313729">
+                <LayoutItem Id="SkipExecutionDate" Index="0" RelativeSize="16" />
+                <LayoutItem Id="NextExecutionDate" Index="1" RelativeSize="12" />
+                <LayoutItem Id="ExecutionTime" Index="2" RelativeSize="12" />
+                <LayoutItem Id="RunEvery_Minute" Index="3" RelativeSize="12" />
+                <LayoutItem Id="ExecutionDate" Index="4" RelativeSize="12" />
+                <LayoutItem Id="ExecutionMonth" Index="5" RelativeSize="36" />
+                <LayoutItem Id="IsActive" Removed="True" />
+                <LayoutItem Id="ScheduleDescription" Removed="True" />
+                <LayoutItem Id="SqlDataSource" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Item1" ShowCaption="True" Caption="Sms Configuration" CaptionLocation="Top" Index="1" RelativeSize="69.217289719626166" IsNewNode="True">
+              <LayoutItem Id="SmsTo" ViewItem="SmsTo" Index="0" RelativeSize="16" IsNewNode="True" />
+              <LayoutItem Id="SmsText" ViewItem="SmsText" Index="1" RelativeSize="12" IsNewNode="True" />
+              <LayoutItem Id="SendingDateExpression" ViewItem="SendingDateExpression" Index="2" RelativeSize="12" IsNewNode="True" />
+              <LayoutItem Id="AllowUnicodeText" ShowCaption="True" ViewItem="AllowUnicodeText" Index="3" RelativeSize="60" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="DoSoSmsSchedule" Removed="True" />
+            <LayoutGroup Id="NewXPLiteObjectEx" Removed="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="SmsCollection_Group" TextAlignMode="AlignWithChildren" Direction="Vertical" RelativeSize="68.2033096926714">
+            <LayoutItem Id="SmsCollection" RelativeSize="100" />
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" Removed="True" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="DoSoSmsSchedule_SmsCollection_ListView">
+      <Columns>
+        <ColumnInfo Id="SmsTo" Width="152" SortIndex="0" SortOrder="Ascending" Index="0" />
+        <ColumnInfo Id="SmsText" Width="690" SortIndex="-1" SortOrder="None" Index="1" />
+        <ColumnInfo Id="SentDate" Width="48" Index="4" />
+        <ColumnInfo Id="SendingDate" Width="48" Index="5" />
+        <ColumnInfo Id="ObjectTypeName" Width="130" Index="6" />
+        <ColumnInfo Id="ObjectKey" Width="73" Index="7" />
+        <ColumnInfo Id="StatusComment" Width="355" Index="8" />
+      </Columns>
+    </ListView>
+    <ListView Id="ReportData_LookupListView" GroupSummary="Empty" />
+    <ListView Id="ReportDefinition_LookupListView" GroupSummary="Empty" />
+    <ListView Id="ReportDefinition_QueryParametersCollection_ListView" GroupSummary="Empty">
+      <Columns>
+        <ColumnInfo Id="AllowBlank" Index="-1" />
+        <ColumnInfo Id="AllowMultipleValues" Index="-1" />
+        <ColumnInfo Id="AllowNull" Index="-1" />
+        <ColumnInfo Id="BusinessObjectType" Index="-1" />
+        <ColumnInfo Id="DataType" Index="-1" />
+        <ColumnInfo Id="DefaultValue" Index="-1" />
+        <ColumnInfo Id="EnumType" Index="-1" />
+        <ColumnInfo Id="Value" Index="-1" />
+        <ColumnInfo Id="ParameterName" Width="110" />
+        <ColumnInfo Id="ParameterValue" Width="124" Index="1" />
+      </Columns>
+    </ListView>
+    <DetailView Id="ReportExecution_DetailView">
+      <Items>
+        <PropertyEditor Id="ReportDefinition.Description" PropertyName="ReportDefinition.Description" IsNewNode="True" />
+        <PropertyEditor Id="ReportDefinition.QueryParametersCollection" PropertyName="ReportDefinition.QueryParametersCollection" View="ReportDefinition_QueryParametersCollection_ListView" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="10.606060606060606">
+            <LayoutGroup Id="ReportExecution" RelativeSize="100">
+              <LayoutItem Id="ReportDefinition" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="NewXPLiteObjectEx" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ShowMessageHelper_Smses_ListView">
+      <Columns>
+        <ColumnInfo Id="StatusComment" Width="78" />
+        <ColumnInfo Id="ObjectTypeName" Width="92" />
+        <ColumnInfo Id="SendingDate" Width="71" />
+        <ColumnInfo Id="SentDate" Width="71" />
+        <ColumnInfo Id="ObjectKey" Width="71" />
+      </Columns>
+    </ListView>
+  </Views>
 </Application>

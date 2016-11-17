@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(bool addMailMarge)
         {
             this.components = new System.ComponentModel.Container();
             DevExpress.XtraSpreadsheet.UI.SpreadsheetCommandGalleryItemGroup spreadsheetCommandGalleryItemGroup1 = new DevExpress.XtraSpreadsheet.UI.SpreadsheetCommandGalleryItemGroup();
@@ -1337,6 +1337,12 @@
             this.drawingToolsRibbonPageCategory1,
             this.pictureToolsRibbonPageCategory1,
             this.pivotTableToolsRibbonPageCategory1});
+
+            if (addMailMarge)
+            {
+                this.ribbonControl1.Pages.Add(this.mailMergeRibbonPage1);
+            }
+
             this.ribbonControl1.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.fileRibbonPage1,
             this.homeRibbonPage1,
@@ -1345,8 +1351,8 @@
             this.formulasRibbonPage1,
             this.dataRibbonPage1,
             this.reviewRibbonPage1,
-            this.viewRibbonPage1,
-            this.mailMergeRibbonPage1});
+            this.viewRibbonPage1
+            /*,this.mailMergeRibbonPage1*/});
             this.ribbonControl1.RepositoryItems.AddRange(new DevExpress.XtraEditors.Repository.RepositoryItem[] {
             this.repositoryItemFontEdit1,
             this.repositoryItemSpreadsheetFontSizeEdit1,
@@ -5638,8 +5644,8 @@
             // spreadsheetDockManager1
             // 
             this.spreadsheetDockManager1.Form = this;
-            this.spreadsheetDockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
-            this.panelContainer1});
+            if (addMailMarge)
+                this.spreadsheetDockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] { this.panelContainer1 });
             this.spreadsheetDockManager1.SpreadsheetControl = this.spreadsheetControl1;
             this.spreadsheetDockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
@@ -5655,8 +5661,12 @@
             // 
             // panelContainer1
             // 
-            this.panelContainer1.Controls.Add(this.fieldListDockPanel1);
-            this.panelContainer1.Controls.Add(this.mailMergeParametersDockPanel1);
+            if (addMailMarge)
+            {
+                this.panelContainer1.Controls.Add(this.fieldListDockPanel1);
+                this.panelContainer1.Controls.Add(this.mailMergeParametersDockPanel1);
+            }
+
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
             this.panelContainer1.ID = new System.Guid("6902c7df-3dc5-4596-ab72-c0ae500d80ea");
             this.panelContainer1.Location = new System.Drawing.Point(0, 143);
@@ -5755,7 +5765,8 @@
             this.Controls.Add(this.spreadsheetControl1);
             this.Controls.Add(this.splitterControl1);
             this.Controls.Add(this.splitContainerControl1);
-            this.Controls.Add(this.panelContainer1);
+            if (addMailMarge)
+                this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.ribbonStatusBar1);
             this.Controls.Add(this.ribbonControl1);
             this.Name = "DoSoSheetForm";

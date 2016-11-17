@@ -46,7 +46,7 @@ namespace DoSo.Reporting.BusinessObjects.Reporting
 
         public static DoSoSheetFrom CreateSheetForm()
         {
-            var sheetForm = new DoSoSheetFrom();
+            var sheetForm = new DoSoSheetFrom(true);
             
             sheetForm.spreadsheetControl1.Options.DataSourceWizard.EnableCustomSql = true;
 
