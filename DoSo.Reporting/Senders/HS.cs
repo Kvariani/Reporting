@@ -1,16 +1,55 @@
-﻿using DevExpress.Xpo;
+﻿using DevExpress.DataAccess.Excel;
+using DevExpress.DataAccess.Native.Excel;
+using DevExpress.Xpo;
+using DoSo.Reporting.BusinessObjects;
 using DoSo.Reporting.BusinessObjects.Base;
 using NewBaseModule.BisinessObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static NewBaseModule.BisinessObjects.ConfigurationStatic;
 
 public static class HS
 {
+    public static bool CheckThreadState(this Thread thread)
+    {
+        if (thread.ThreadState == System.Threading.ThreadState.Running || thread.ThreadState == System.Threading.ThreadState.WaitSleepJoin)
+            return true;
+        return false;
+    }
+
+    static object _locker = new object();
+    public static void GetOrCreateSericeStatus(string name, bool setExeptionTime = false)
+    {
+        lock (_locker)
+            using (var uow = new UnitOfWork(XpoDefault.DataLayer))
+            {
+                var data = uow.Query<DoSoServiceStatus>().FirstOrDefault(x => x.ServiceName == name);
+                if (data == null)
+                    data = new DoSoServiceStatus(uow) { ServiceName = name };
+                if (setExeptionTime)
+                    data.LastExceptionTime = DateTime.Now;
+                else
+                    data.LastActiveTime = DateTime.Now;
+                uow.CommitChanges();
+            }
+    }
+
+    public static DataView GetResultView(ExcelDataSource dataSource)
+    {
+        var list = (dataSource as IListSource).GetList();
+        if (list is DataView)
+            return list as DataView;
+        var dt = (list as System.Data.DataViewManager)?.DataSet?.Tables[0];
+        DataView resultView = ((IListSource)(dataSource)).GetList() as DevExpress.DataAccess.Native.Excel.DataView;
+        return resultView;
+    }
+
 
     public static void CreateExceptionLog(string message, string stackTrace, int level)
     {
@@ -69,6 +108,7 @@ public static class HS
                 EnableSsl = Convert.ToBoolean(allConfigFromDb.FirstOrDefault(x => x.ParameterName == nameof(EnableSsl))?.ParameterValue);
                 UseDefaultCredentials = Convert.ToBoolean(allConfigFromDb.FirstOrDefault(x => x.ParameterName == nameof(UseDefaultCredentials))?.ParameterValue);
                 SmtpPort = Convert.ToInt32(allConfigFromDb.FirstOrDefault(x => x.ParameterName == nameof(SmtpPort))?.ParameterValue);
+
             }
         }
         catch (Exception ex)
@@ -76,7 +116,6 @@ public static class HS
             CreateExceptionLog(ex.Message, ex.ToString(), 10);
         }
     }
-
 
     public static string NormalizeTelNumber(this string unNormalizedNumber)
     {
@@ -129,9 +168,9 @@ public static class HS
         }
         catch (Exception ex)
         {
-            
+
         }
-     
+
     }
 
     public static void CreateConfigItemIfNotExists(this UnitOfWork uow, List<ConfigurationStatic> existingItems, string configName, ParameterTypeEnum type, string groupName)

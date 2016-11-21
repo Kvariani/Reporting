@@ -10,12 +10,12 @@ namespace DoSo.Reporting.Generators
     public static class SmsGenerator
     {
         static object _locker = new object();
-        public static void GenerateAll(Timer timer)
+        public static void GenerateAll()
         {
             lock (_locker)
                 try
                 {
-                    
+                    HS.GetOrCreateSericeStatus(nameof(SmsGenerator));
                     using (var unitOfWork = new UnitOfWork(XpoDefault.DataLayer))
                     {
                         var allSchedule = unitOfWork.Query<DoSoSmsSchedule>().Where(x => x.IsActive && x.NextExecutionDate < DateTime.Now && x.ExpiredOn == null);
@@ -31,6 +31,7 @@ namespace DoSo.Reporting.Generators
                 }
                 catch (Exception ex)
                 {
+                    HS.GetOrCreateSericeStatus(nameof(SmsGenerator), true);
                     HS.CreateExceptionLog(ex.Message, ex.ToString(), 6);
                 }
         }

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DoSo.Reporting.BusinessObjects.SMS
 {
-    [DefaultClassOptions]
+    //[DefaultClassOptions]
     [NavigationItem("Reports")]
     //[ImageName("BO_Contact")]
     [DefaultProperty("SmsText")]

@@ -16,6 +16,7 @@ namespace DoSo.Reporting.Generators
             lock (_locker)
                 try
                 {
+                    HS.GetOrCreateSericeStatus(nameof(MailGenerator));
                     using (var unitOfWork = new UnitOfWork(XpoDefault.DataLayer))
                     {
                         var allSchedule = unitOfWork.Query<DoSoReportSchedule>().Where(x => x.IsActive && x.NextExecutionDate < DateTime.Now && x.ExpiredOn == null).ToList();
@@ -31,6 +32,7 @@ namespace DoSo.Reporting.Generators
                 }
                 catch (Exception ex)
                 {
+                    HS.GetOrCreateSericeStatus(nameof(MailGenerator), true);
                     HS.CreateExceptionLog(ex.Message, ex.ToString(), 6);
                 }
         }

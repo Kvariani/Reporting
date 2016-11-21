@@ -19,6 +19,7 @@ using DevExpress.ExpressApp.Core;
 using DevExpress.DataAccess.Sql;
 using DevExpress.DataAccess.Native.Sql;
 using System.Collections;
+using DevExpress.DataAccess.Native.Excel;
 
 namespace DoSo.Reporting.BusinessObjects.Base
 {
@@ -290,11 +291,11 @@ namespace DoSo.Reporting.BusinessObjects.Base
             return ExcelDataSource != null ? GetListFromExcelDataSource(newClass) : GetListFromSqlDatasource(newClass);
         }
 
+
         public List<XPDataObject> GetListFromExcelDataSource(XPClassInfo newClass)
         {
             var list = new List<XPDataObject>();
-            var dt = ((System.Data.DataViewManager)((IListSource)SqlDataSource).GetList()).DataSet.Tables[0];
-            DevExpress.DataAccess.Native.Excel.DataView resultView = ((IListSource)(ExcelDataSource)).GetList() as DevExpress.DataAccess.Native.Excel.DataView;
+            var resultView = HS.GetResultView(ExcelDataSource);
             foreach (DevExpress.DataAccess.Native.Excel.ViewRow row in resultView)
             {
                 var newObject = newClass.CreateObject(Session) as XPDataObject;

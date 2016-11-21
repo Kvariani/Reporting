@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DoSo.Reporting.BusinessObjects.Email
 {
-    [DefaultClassOptions]
+    //[DefaultClassOptions]
     [NavigationItem("Reports")]
     [DefaultProperty("EmailSubject")]
     [CreatableItem(false)]

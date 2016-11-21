@@ -22,6 +22,7 @@ using Timer = System.Threading.Timer;
 using DoSo.MessageSendService;
 using DoSo.Reporting.Senders;
 using DoSo.Reporting.Generators;
+using DoSo.Reporting.BusinessObjects;
 
 namespace DoSoMessageSendService
 {
@@ -100,16 +101,12 @@ namespace DoSoMessageSendService
             }
         }
 
-        //private static DateTime failedLogTime;
-        //private static Type lastExceptionType;
-
         private static void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
         {
             var ex = e.Exception;
 
             if (!(ex is UnableToOpenDatabaseException)) return;
 
-            //GeneratorHelper.CreateLogFileWithException("Connection Lost - " + ex);
             Environment.Exit(1);
         }
 
@@ -118,39 +115,75 @@ namespace DoSoMessageSendService
             //Environment.Exit(1);
         }
 
+        
+
         void RunService()
         {
+
+            var mailGeneratorThread = new Thread(StartMailGeneratorTread);
+            mailGeneratorThread.SetApartmentState(ApartmentState.STA);
+
+            var smsGeneratorThread = new Thread(StartSmsGeneratorThread);
+            var emailSenderThred = new Thread(StartEmailSender);
+            var smsSenderThread = new Thread(StartSmsSender);
             try
             {
-                var mailGeneratorThread = new Thread(StartMailGeneratorTread);
-                mailGeneratorThread.SetApartmentState(ApartmentState.STA);
-
                 while (true)
                 {
                     HS.GetConfiguration();
 
-                    if (mailGeneratorThread.ThreadState != System.Threading.ThreadState.Running)
-                    {
+                    if (!mailGeneratorThread.CheckThreadState())
                         mailGeneratorThread.Start();
-                    }
+
+                    if (!smsGeneratorThread.CheckThreadState())
+                        smsGeneratorThread.Start();
+
+                    if (!emailSenderThred.CheckThreadState())
+                        emailSenderThred.Start();
+
+                    if (!smsSenderThread.CheckThreadState())
+                        smsSenderThread.Start();
+
                     Thread.Sleep(10000);
                 }
-
-                //mailGeneratorTimer = new Timer(_ => MailGenerator.GenerateAll(mailGeneratorTimer), null, 1000, Timeout.Infinite);
-                //smsGeneratorTimer = new Timer(_ => SmsGenerator.GenerateAll(smsGeneratorTimer), null, 1000, Timeout.Infinite);
-                //mailSenderTimer = new Timer(_ => MailSender.SendAll(mailSenderTimer), null, 1000, Timeout.Infinite);
-                //smsSenderTimer = new Timer(_ => SmsSender.SendAll(smsSenderTimer), null, 1000, Timeout.Infinite);
             }
             catch (Exception ex)
             {
-                //GeneratorHelper.CreateLogFileWithException(ex.ToString());
+                HS.CreateExceptionLog(ex.Message, ex.ToString(), 10);
+                RunService();
             }
         }
 
-        public void LoadConfiguration()
+        void StartSmsSender(object state)
         {
-
+            while (true)
+            {
+                if (HS.EnableSmsSender)
+                    SmsSender.SendAll();
+                Thread.Sleep(1000);
+            }
         }
+
+        void StartEmailSender(object state)
+        {
+            while (true)
+            {
+                if (HS.EnableMailSender)
+                    MailSender.SendAll();
+                Thread.Sleep(1000);
+            }
+        }
+
+        void StartSmsGeneratorThread(object state)
+        {
+            while (true)
+            {
+                if (HS.EnableSmsGenerator)
+                    SmsGenerator.GenerateAll();
+                Thread.Sleep(1000);
+            }
+        }
+
 
         private void StartMailGeneratorTread(object state)
         {

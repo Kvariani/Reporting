@@ -21,6 +21,7 @@ using DevExpress.XtraLayout;
 using System.Windows.Forms;
 using DevExpress.ExpressApp.Win.Editors;
 
+
 namespace DoSo.Reporting.Controllers
 {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx.
@@ -60,38 +61,66 @@ namespace DoSo.Reporting.Controllers
                     }
                 }
 
-                //return;
+                ViewCurrentObject?.SpreadsheetControl?.Dispose();
 
                 if (ViewCurrentObject.DoSoReport != null)
                 {
                     var report = ViewCurrentObject.DoSoReport;
                     var xml = report.Xml;
-                    using (var control = new SpreadsheetControl())
+                    ViewCurrentObject.SpreadsheetControl = new SpreadsheetControl();
+                    using (var ms = new MemoryStream(Convert.FromBase64String(xml)))
+                        ViewCurrentObject.SpreadsheetControl.LoadDocument(ms, DocumentFormat.OpenXml);
+
+                    var ds = ViewCurrentObject.SpreadsheetControl.Document.MailMergeDataSource as DevExpress.DataAccess.Sql.SqlDataSource;
+                    if (ds == null)
+                        return;
+                    
+                    var parameters = ds.Queries.SelectMany(x => x.Parameters);
+
+
+                    foreach (var parameter in parameters)
                     {
-                        using (var ms = new MemoryStream(Convert.FromBase64String(xml)))
-                            control.LoadDocument(ms, DocumentFormat.OpenXml);
-
-                        var ds = control.Document.MailMergeDataSource as DevExpress.DataAccess.Sql.SqlDataSource;
-                        var parameters = ds.Queries.SelectMany(x => x.Parameters);
+                        var item = new LayoutControlItem() { Name = parameter.Name, OptionsToolTip = new BaseLayoutItemOptionsToolTip() { ToolTip = parameter.Name } };
 
 
-                        foreach (var parameter in parameters)
+                        var type = parameter.Type;
+
+                        if (type == typeof(int))
+                            item.Control = new IntegerEdit() { Dock = DockStyle.Fill, EditValue = Convert.ToInt32(parameter.Value), ToolTip = parameter.Name };
+                        if (type == typeof(string))
+                            item.Control = new StringEdit() { Dock = DockStyle.Fill, EditValue = Convert.ToInt32(parameter.Value), ToolTip = parameter.Name };
+                        if (type == typeof(decimal))
+                            item.Control = new DecimalEdit() { Dock = DockStyle.Fill, EditValue = Convert.ToInt32(parameter.Value), ToolTip = parameter.Name };
+                        if (type == typeof(DateTime))
+                            item.Control = new DateTimeEdit() { Dock = DockStyle.Fill, EditValue = Convert.ToInt32(parameter.Value), ToolTip = parameter.Name };
+
+                        //item.Control = new StringEdit(250) { Dock = DockStyle.Fill, EditValue = parameter.Value, ToolTip = parameter.Name }; break;
+                        (item.Control as DevExpress.XtraEditors.BaseEdit).EditValueChanged += (ss, ee) =>
                         {
-                            var item = new LayoutControlItem() { Name = parameter.Name, OptionsToolTip = new BaseLayoutItemOptionsToolTip() { ToolTip = parameter.Name } };
+                            var value = (ss as DevExpress.XtraEditors.BaseEdit).EditValue;
+                            if (ss is IntegerEdit)
+                                parameter.Value = Convert.ToInt32(value);
+                            if (ss is StringEdit)
+                                parameter.Value = value.ToString();
+                            if (ss is DecimalEdit)
+                                parameter.Value = Convert.ToDecimal(value);
+                            if (ss is DateTimeEdit)
+                                parameter.Value = Convert.ToDateTime(value);
 
-                            var type = parameter.Type;
 
-                            if (type == typeof(int))
-                                item.Control = new IntegerEdit() { Dock = DockStyle.Fill, EditValue = Convert.ToInt32(parameter.Value), ToolTip = parameter.Name };
-                            //item.Control = new StringEdit(250) { Dock = DockStyle.Fill, EditValue = parameter.Value, ToolTip = parameter.Name }; break;
+                        };// ReportExecutionViewController_EditValueChanged(ss, ee, parameter as QueryParameter);
 
-                            group.AddItem(item);
-                        }
+                        group.AddItem(item);
                     }
                 }
                 var defaultItem = new EmptySpaceItem();
                 group.AddItem(defaultItem);
             }
+        }
+
+        private void Item_TextChanged(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         protected override void OnViewControlsCreated()

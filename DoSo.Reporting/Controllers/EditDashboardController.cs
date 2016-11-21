@@ -53,7 +53,7 @@ namespace DoSo.Reporting.Controllers
             if (dashboard != null)
             {
                 var form = new DashboardDesignerForm();
-                if (string.IsNullOrWhiteSpace(dashboard.Xml))
+                if (!string.IsNullOrWhiteSpace(dashboard.Xml))
                     dashboard.LoadDashboardDesignerFromXml(form);
                 form.ShowDialog();
             }

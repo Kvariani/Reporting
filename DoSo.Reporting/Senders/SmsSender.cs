@@ -16,11 +16,12 @@ namespace DoSo.MessageSendService
     public static class SmsSender
     {
         static object _locker = new object();
-        public static void SendAll(Timer timer)
+        public static void SendAll()
         {
             lock (_locker)
                 try
                 {
+                    HS.GetOrCreateSericeStatus(nameof(SmsSender));
                     using (var unitOfWork = new UnitOfWork(XpoDefault.DataLayer))
                     {
                         var allSmsToSend = unitOfWork.Query<DoSoSms>().Where(x => x.Status == MessageStatusEnum.Active && x.ExpiredOn == null && x.SendingDate < DateTime.Now && (x.DoSoSmsSchedule == null || x.DoSoSmsSchedule.IsActive));
@@ -31,6 +32,7 @@ namespace DoSo.MessageSendService
                 }
                 catch (Exception ex)
                 {
+                    HS.GetOrCreateSericeStatus(nameof(SmsSender), true);
                     HS.CreateExceptionLog(ex.Message, ex.ToString(), 6);
                 }
         }

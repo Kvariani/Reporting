@@ -8,6 +8,7 @@ using System.Linq;
 using NewBaseModule.BisinessObjects;
 using DoSo.Reporting.BusinessObjects.Reporting;
 using System.ComponentModel;
+using DevExpress.XtraSpreadsheet;
 
 namespace DoSo.Reporting.BusinessObjects
 {
@@ -25,6 +26,9 @@ namespace DoSo.Reporting.BusinessObjects
             set { SetPropertyValue(nameof(DoSoReport), ref fDoSoReport, value); }
         }
 
+
+        [Browsable(false)]
+        public SpreadsheetControl SpreadsheetControl;
         //private List<ReportDefinition> FilteredReportDefinitions
         //{
         //    get

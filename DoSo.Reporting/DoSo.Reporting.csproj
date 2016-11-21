@@ -133,6 +133,7 @@
     <Compile Include="BusinessObjects\Base\DoSoMessageBase.cs" />
     <Compile Include="BusinessObjects\Base\DoSoScheduleBase.cs" />
     <Compile Include="BusinessObjects\ConfigurationStatic.cs" />
+    <Compile Include="BusinessObjects\DoSoServiceStatus.cs" />
     <Compile Include="BusinessObjects\Reporting\DoSoReport.cs" />
     <Compile Include="BusinessObjects\Reporting\QueryParameter.cs" />
     <Compile Include="BusinessObjects\Reporting\ReportExecution.cs" />

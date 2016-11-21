@@ -18,11 +18,12 @@ namespace DoSo.Reporting.Senders
     public static class MailSender
     {
         static object _locker = new object();
-        public static void SendAll(Timer timer)
+        public static void SendAll()
         {
             lock (_locker)
                 try
                 {
+                    HS.GetOrCreateSericeStatus(nameof(MailSender));
                     using (var unitOfWork = new UnitOfWork(XpoDefault.DataLayer))
                     {
                         var allMessage2Send = unitOfWork.Query<DoSoEmail>().Where(x => x.Status == BusinessObjects.Base.DoSoMessageBase.MessageStatusEnum.Active && x.ExpiredOn == null && x.SendingDate < DateTime.Now && (x.DoSoReportSchedule == null || x.DoSoReportSchedule.IsActive));
@@ -38,6 +39,7 @@ namespace DoSo.Reporting.Senders
                 }
                 catch (Exception ex)
                 {
+                    HS.GetOrCreateSericeStatus(nameof(MailSender), true);
                     HS.CreateExceptionLog(ex.Message, ex.ToString(), 6);
                 }
         }

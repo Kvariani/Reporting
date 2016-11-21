@@ -1,3 +1,6 @@
+using DevExpress.DataAccess.Excel;
+using DevExpress.DataAccess.Native.Excel;
+using DevExpress.DataAccess.Sql;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.SystemModule;
@@ -56,6 +59,165 @@ namespace DoSo.Reporting.Controllers
             MaybeFast(e.CurrentObject as ReportExecution, view);
         }
 
+        public Workbook GetOutDocument()
+        {
+            var outDocument = new Workbook();
+            outDocument.Worksheets.Add(HS.MyTempName);
+            outDocument.Worksheets.RemoveAt(0);
+            return outDocument;
+        }
+
+        public void ExportByMailMerge(SpreadsheetControl control, Workbook outDocument)
+        {
+            var docs = control.Document.GenerateMailMergeDocuments();
+            foreach (var doc in docs)
+            {
+                foreach (var sheet in doc.Worksheets)
+                {
+                    outDocument.Worksheets.Add(sheet.Name);
+                    outDocument.Worksheets.LastOrDefault().CopyFrom(sheet);
+                }
+            }
+        }
+
+        public Workbook ExportFromExcelDataSource(ExcelDataSource excelDataSource, SpreadsheetControl control)
+        {
+            excelDataSource.Fill();
+            var outDocument = GetOutDocument();
+
+            foreach (var item in control.Document.Worksheets)
+            {
+                control.Document.Worksheets.ActiveWorksheet = item;
+                if (control.ActiveWorksheet.DefinedNames.Any())
+                {
+                    ExportByMailMerge(control, outDocument);
+                }
+                else
+                {
+                    outDocument.Worksheets.Add(item.Name);
+                    outDocument.Worksheets.LastOrDefault().CopyFrom(item);
+                    var userdRange = item.GetDataRange().Where(x => x.HasFormula && x.Formula.ToLower().Contains("=field("));
+                    if (userdRange.Any())
+                    {
+                        foreach (var rangeItem in userdRange)
+                        {
+                            if (rangeItem.RowIndex > 0)
+                            {
+                                var headerCell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex - 1, rangeItem.ColumnIndex];
+                                if (headerCell.Value.IsEmpty)
+                                    headerCell.SetValue(rangeItem.DisplayText.Replace("]", "").Replace("[", ""));
+                            }
+                            var dataMember = control.Document.MailMergeDataMember;
+                            var splitedItem = rangeItem.DisplayText.Split('.');
+                            if (splitedItem.Count() > 1)
+                                dataMember = splitedItem.FirstOrDefault().Replace("[", "");
+
+                            //var query = ds.Result.Where(x => x.Name == dataMember).SelectMany(x => x.Columns).Where(x => x.Name == splitedItem.LastOrDefault().Replace("]", "").Replace("[", "")).FirstOrDefault() as DevExpress.DataAccess.Native.Sql.ResultColumn;
+
+                            //for (int i = 0; i < query.Count; i++)
+                            //{
+                            //    var value = query.Values[i];
+                            //    var cell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex + i, rangeItem.ColumnIndex];
+                            //    cell.SetValue(value);
+                            //}
+                        }
+                    }
+                    else
+                    {
+                        var resultView = HS.GetResultView(excelDataSource);
+                        for (int i = 0; i < resultView.Columns.Count; i++)
+                        {
+                            var col = resultView.Columns[i];
+                            var doc = outDocument.Worksheets.LastOrDefault();
+                            var headerCell = doc.Cells[0, i];
+                            if (headerCell.Value.IsEmpty)
+                                headerCell.SetValue(col.Name);
+
+                            foreach (ViewRow row in resultView)
+                            {
+                                var value = col.GetValue(row);
+                                doc.Cells[row.Index + 1, i].SetValue(value);
+                            }
+                        }
+                    }
+                }
+                ReplaceTemplateValues(item, outDocument);
+            }
+            return outDocument;
+
+        }
+
+        public Workbook ExportFromSqlDataSource(SqlDataSource ds, SpreadsheetControl control)
+        {
+            ds.Fill();
+            var outDocument = GetOutDocument();
+            foreach (var item in control.Document.Worksheets)
+            {
+                control.Document.Worksheets.ActiveWorksheet = item;
+                if (control.ActiveWorksheet.DefinedNames.Any())
+                    ExportByMailMerge(control, outDocument);
+                else
+                {
+                    outDocument.Worksheets.Add(item.Name);
+                    outDocument.Worksheets.LastOrDefault().CopyFrom(item);
+                    var userdRange = item.GetDataRange().Where(x => x.HasFormula && x.Formula.ToLower().Contains("=field("));
+                    if (userdRange.Any())
+                    {
+                        foreach (var rangeItem in userdRange)
+                        {
+                            if (rangeItem.RowIndex > 0)
+                            {
+                                var headerCell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex - 1, rangeItem.ColumnIndex];
+                                if (headerCell.Value.IsEmpty)
+                                    headerCell.SetValue(rangeItem.DisplayText.Replace("]", "").Replace("[", ""));
+                            }
+                            var dataMember = control.Document.MailMergeDataMember;
+                            var splitedItem = rangeItem.DisplayText.Split('.');
+                            if (splitedItem.Count() > 1)
+                                dataMember = splitedItem.FirstOrDefault().Replace("[", "");
+
+                            var query = ds.Result.Where(x => x.Name == dataMember).SelectMany(x => x.Columns).Where(x => x.Name == splitedItem.LastOrDefault().Replace("]", "").Replace("[", "")).FirstOrDefault() as DevExpress.DataAccess.Native.Sql.ResultColumn;
+
+                            for (int i = 0; i < query.Count; i++)
+                            {
+                                var value = query.Values[i];
+                                var cell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex + i, rangeItem.ColumnIndex];
+                                cell.SetValue(value);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var lastIndex = 0;
+                        foreach (var result in ds.Result)
+                        {
+                            outDocument.Worksheets.LastOrDefault().Import(result, 1, lastIndex);
+                            foreach (var column in result.Columns)
+                            {
+                                var headerCell = outDocument.Worksheets.LastOrDefault().Cells[0, lastIndex];
+                                if (headerCell.Value.IsEmpty)
+                                    headerCell.SetValue(column.Name);
+                                lastIndex++;
+                            }
+                        }
+                    }
+                    ReplaceTemplateValues(item, outDocument);
+                }
+            }
+            return outDocument;
+        }
+
+        public void ReplaceTemplateValues(Worksheet item, Workbook outDocument)
+        {
+            var templateValues = item.GetDataRange().Where(x => !x.Formula.ToLower().Contains("=field(") && !string.IsNullOrEmpty(x.DisplayText));
+            foreach (var templateValue in templateValues)
+            {
+                var cell = outDocument.Worksheets.LastOrDefault().Cells[templateValue.RowIndex, templateValue.ColumnIndex];
+                var value = templateValue.Value.ToString();
+                cell.SetValue(value);
+            }
+        }
+
         public void MaybeFast(ReportExecution reportExecution, DetailView view)
         {
             var objectSpace = Application.CreateObjectSpace() as XPObjectSpace;
@@ -64,104 +226,19 @@ namespace DoSo.Reporting.Controllers
             var xml = report?.Xml;
             if (!string.IsNullOrEmpty(xml))
             {
-                using (var control = new SpreadsheetControl())
-                {
-                    using (var ms = new MemoryStream(Convert.FromBase64String(xml)))
-                        control.LoadDocument(ms, DocumentFormat.OpenXml);
+                Workbook outDocument = null;
+                var control = reportExecution.SpreadsheetControl;
+                if (control.Document.MailMergeDataSource is SqlDataSource)
+                    outDocument = ExportFromSqlDataSource(control.Document.MailMergeDataSource as SqlDataSource, control);
+                if (control.Document.MailMergeDataSource is ExcelDataSource)
+                    outDocument = ExportFromExcelDataSource(control.Document.MailMergeDataSource as ExcelDataSource, control);
 
-
-                    var start = DateTime.Now;
-
-                    var ds = control.Document.MailMergeDataSource as DevExpress.DataAccess.Sql.SqlDataSource;
-                    var parameters = ds.Queries.SelectMany(x => x.Parameters);
-                    foreach (var item in parameters)
-                    {
-                        var editorWithValue = view.FindItem(item.Name);
-
-                    }
-                    ds.Fill();
-                    // Mail Merge details
-                    var outDocument = new Workbook();
-                    outDocument.Worksheets.Add(HS.MyTempName);
-                    outDocument.Worksheets.RemoveAt(0);
-                    foreach (var item in control.Document.Worksheets)
-                    {
-                        control.Document.Worksheets.ActiveWorksheet = item;
-                        if (control.ActiveWorksheet.DefinedNames.Any())
-                        {
-                            var docs = control.Document.GenerateMailMergeDocuments();
-                            foreach (var doc in docs)
-                            {
-                                foreach (var sheet in doc.Worksheets)
-                                {
-                                    outDocument.Worksheets.Add(sheet.Name);
-                                    outDocument.Worksheets.LastOrDefault().CopyFrom(sheet);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            outDocument.Worksheets.Add(item.Name);
-                            var userdRange = item.GetDataRange().Where(x => x.HasFormula && x.Formula.ToLower().Contains("=field("));
-                            if (userdRange.Any())
-                            {
-                                foreach (var rangeItem in userdRange)
-                                {
-                                    if (rangeItem.RowIndex > 0)
-                                    {
-                                        var headerCell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex - 1, rangeItem.ColumnIndex];
-                                        if (headerCell.Value.IsEmpty)
-                                            headerCell.SetValue(rangeItem.DisplayText);
-                                    }
-                                    var dataMember = control.Document.MailMergeDataMember;
-                                    var splitedItem = rangeItem.DisplayText.Split('.');
-                                    if (splitedItem.Count() > 1)
-                                        dataMember = splitedItem.FirstOrDefault().Replace("[", "");
-
-                                    var query = ds.Result.Where(x => x.Name == dataMember).SelectMany(x => x.Columns).Where(x => x.Name == splitedItem.LastOrDefault().Replace("]", "").Replace("[", "")).FirstOrDefault() as DevExpress.DataAccess.Native.Sql.ResultColumn;
-
-                                    for (int i = 0; i < query.Count; i++)
-                                    {
-                                        var value = query.Values[i];
-                                        var cell = outDocument.Worksheets.LastOrDefault().Cells[rangeItem.RowIndex + i, rangeItem.ColumnIndex];
-                                        cell.SetValue(value);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                var lastIndex = 0;
-                                foreach (var result in ds.Result)
-                                {
-                                    outDocument.Worksheets.LastOrDefault().Import(result, 1, lastIndex);
-                                    foreach (var column in result.Columns)
-                                    {
-                                        var headerCell = outDocument.Worksheets.LastOrDefault().Cells[0, lastIndex];
-                                        if (headerCell.Value.IsEmpty)
-                                            headerCell.SetValue(column.Name);
-                                        lastIndex++;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    outDocument.Worksheets.RemoveAt(0);
-
-                    var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
-                    outDocument.SaveDocument(fullName);
-                    return;
-
-                    var sdfa = control.ActiveWorksheet.DefinedNames.Where(x => x == x);
-                    control.ActiveWorksheet.Import(ds.Result[0], 0, 0);
-
-
-                    control.ActiveWorksheet.Workbook.SaveDocument(fullName);
-
-                    var b = $"{start} <> {DateTime.Now}";
-                    var a = start;
-                }
+                outDocument.Worksheets.RemoveAt(0);
+                var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
+                outDocument.SaveDocument(fullName);
             }
         }
+
 
 
         //public void Slow()
