@@ -83,14 +83,14 @@ namespace DoSo.Reporting.BusinessObjects
         }
 
 
-        public DevExpress.DashboardCommon.Dashboard CreateDashBoard()
+        public Dashboard CreateDashBoard()
         {
             var dashboard = new Dashboard();
             LoadFromXml(Xml, dashboard);
             return dashboard;
         }
 
-        static void LoadFromXml(string xml, DevExpress.DashboardCommon.Dashboard dashboard)
+        static void LoadFromXml(string xml, Dashboard dashboard)
         {
             if (xml != null)
             {

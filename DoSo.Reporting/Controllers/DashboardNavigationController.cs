@@ -146,7 +146,6 @@ namespace Common.Win.General.DashBoard.Controllers
         }
 
 
-
         public virtual void ReloadDashboardActions()
         {
             if (!CurrentUserIsNotAdministrator)
@@ -157,10 +156,7 @@ namespace Common.Win.General.DashBoard.Controllers
                     objectSpace.GetObjects<DoSoDashboard>().Where(t => t.VisibleInNavigation).OrderBy(i => i.Index);
                 foreach (DoSoDashboard template in templates)
                 {
-                    var action = new ChoiceActionItem(
-                        template.ID.ToString(),
-                        template.Name,
-                        new ViewShortcut("DashboardViewer_DetailView", template.ID.ToString()))
+                    var action = new ChoiceActionItem(template.ID.ToString(),template.Name, new ViewShortcut("DashboardViewer_DetailView", template.ID.ToString()))
                     {
                         ImageName = "BO_DashboardDefinition"
                     };

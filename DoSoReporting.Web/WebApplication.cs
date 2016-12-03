@@ -117,6 +117,7 @@ namespace DoSoReporting.Web {
             this.validationModule = new DevExpress.ExpressApp.Validation.ValidationModule();
             this.validationAspNetModule = new DevExpress.ExpressApp.Validation.Web.ValidationAspNetModule();
             this.viewVariantsModule = new DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule();
+
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             //
             // auditTrailModule
@@ -163,6 +164,7 @@ namespace DoSoReporting.Web {
             this.Modules.Add(this.validationModule);
             this.Modules.Add(this.validationAspNetModule);
             this.Modules.Add(this.viewVariantsModule);
+            this.Modules.Add(new DoSo.Reporting.ReportingModule());
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.DoSoReportingAspNetApplication_DatabaseVersionMismatch);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 

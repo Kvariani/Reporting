@@ -268,6 +268,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="WebApplication.resx">
       <DependentUpon>WebApplication.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -279,6 +280,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DoSo.Reporting\DoSo.Reporting.csproj">
+      <Project>{e01c71b1-a66f-4ccf-9015-2da9e00bb885}</Project>
+      <Name>DoSo.Reporting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DoSoReporting.Module.Web\DoSoReporting.Module.Web.csproj">
       <Project>{0C729AAD-7626-4668-A7F1-35F7D240489D}</Project>
       <Name>DoSoReporting.Module.Web</Name>

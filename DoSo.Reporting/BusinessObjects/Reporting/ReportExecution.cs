@@ -12,8 +12,9 @@ using DevExpress.XtraSpreadsheet;
 
 namespace DoSo.Reporting.BusinessObjects
 {
-    [DefaultClassOptions]
-    [NavigationItem("Reports")]
+    //[DefaultClassOptions]
+    //[NavigationItem("Reports")]
+    [CreatableItem(false)]
     public class ReportExecution : NewXPLiteObjectEx
     {
         public ReportExecution(Session session) : base(session) { }

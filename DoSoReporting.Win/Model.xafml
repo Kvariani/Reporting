@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
+  <NavigationItems NavigationStyle="TreeList" RootGroupsStyle="OutlookAnimated" StartupNavigationItem="MainDashboard_ListView" />
   <Options Skin="Visual Studio 2013 Blue" UIType="TabbedMDI" FormStyle="Ribbon" DataAccessMode="Server" EnableHtmlFormatting="True">
     <RibbonOptions RibbonControlStyle="Office2013" />
   </Options>
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="16.1.6.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="16.1.6.0" IsNewNode="True" />
-    <SchemaModule Name="SystemWindowsFormsModule" Version="16.1.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.1.7.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="16.1.7.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
     <DetailView Id="AboutInfo_DetailView">
@@ -165,7 +166,7 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="DoSoSmsSchedule_SmsCollection_ListView">
+    <ListView Id="DoSoSmsSchedule_SmsCollection_ListView"> 
       <Columns>
         <ColumnInfo Id="SmsTo" Width="152" SortIndex="0" SortOrder="Ascending" Index="0" />
         <ColumnInfo Id="SmsText" Width="690" SortIndex="-1" SortOrder="None" Index="1" />
@@ -177,32 +178,11 @@
       </Columns>
     </ListView>
     <ListView Id="ReportData_LookupListView" GroupSummary="Empty" />
-    <ListView Id="ReportDefinition_LookupListView" GroupSummary="Empty" />
-    <ListView Id="ReportDefinition_QueryParametersCollection_ListView" GroupSummary="Empty">
-      <Columns>
-        <ColumnInfo Id="AllowBlank" Index="-1" />
-        <ColumnInfo Id="AllowMultipleValues" Index="-1" />
-        <ColumnInfo Id="AllowNull" Index="-1" />
-        <ColumnInfo Id="BusinessObjectType" Index="-1" />
-        <ColumnInfo Id="DataType" Index="-1" />
-        <ColumnInfo Id="DefaultValue" Index="-1" />
-        <ColumnInfo Id="EnumType" Index="-1" />
-        <ColumnInfo Id="Value" Index="-1" />
-        <ColumnInfo Id="ParameterName" Width="110" />
-        <ColumnInfo Id="ParameterValue" Width="124" Index="1" />
-      </Columns>
-    </ListView>
     <DetailView Id="ReportExecution_DetailView">
-      <Items>
-        <PropertyEditor Id="ReportDefinition.Description" PropertyName="ReportDefinition.Description" IsNewNode="True" />
-        <PropertyEditor Id="ReportDefinition.QueryParametersCollection" PropertyName="ReportDefinition.QueryParametersCollection" View="ReportDefinition_QueryParametersCollection_ListView" IsNewNode="True" />
-      </Items>
       <Layout>
         <LayoutGroup Id="Main" RelativeSize="100">
           <LayoutGroup Id="SimpleEditors" RelativeSize="10.606060606060606">
-            <LayoutGroup Id="ReportExecution" RelativeSize="100">
-              <LayoutItem Id="ReportDefinition" RelativeSize="100" />
-            </LayoutGroup>
+            <LayoutGroup Id="ReportExecution" RelativeSize="100" />
             <LayoutGroup Id="NewXPLiteObjectEx" Removed="True" />
           </LayoutGroup>
         </LayoutGroup>

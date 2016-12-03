@@ -29,23 +29,6 @@ namespace DoSo.Reporting.Controllers
             InitializeComponent();
             TargetObjectType = typeof(DoSoDashboard);
         }
-        protected override void OnActivated()
-        {
-            base.OnActivated();
-            // Perform various tasks depending on the target View.
-        }
-        protected override void OnViewControlsCreated()
-        {
-            base.OnViewControlsCreated();
-
-  
-            // Access and customize the target View control.
-        }
-        protected override void OnDeactivated()
-        {
-            // Unsubscribe from previously subscribed events and release other references and resources.
-            base.OnDeactivated();
-        }
 
         private void simpleAction_EditDashboard_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
@@ -53,8 +36,8 @@ namespace DoSo.Reporting.Controllers
             if (dashboard != null)
             {
                 var form = new DashboardDesignerForm();
-                if (!string.IsNullOrWhiteSpace(dashboard.Xml))
-                    dashboard.LoadDashboardDesignerFromXml(form);
+                //if (!string.IsNullOrWhiteSpace(dashboard.Xml))
+                dashboard.LoadDashboardDesignerFromXml(form);
                 form.ShowDialog();
             }
         }
@@ -96,10 +79,9 @@ namespace DoSo.Reporting.Controllers
                     }
                 }
             }
-
-            
-
             //Application.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
         }
+
+        
     }
 }

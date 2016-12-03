@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <ListView Id="ReportDefinition_LookupListView" GroupSummary="Empty" />
+    <ListView Id="ReportDefinition_QueryParametersCollection_ListView" GroupSummary="Empty">
+      <Columns Id="Columns">
+        <ColumnInfo Id="AllowBlank" Index="-1" />
+        <ColumnInfo Id="AllowMultipleValues" Index="-1" />
+        <ColumnInfo Id="AllowNull" Index="-1" />
+        <ColumnInfo Id="BusinessObjectType" Index="-1" />
+        <ColumnInfo Id="DataType" Index="-1" />
+        <ColumnInfo Id="DefaultValue" Index="-1" />
+        <ColumnInfo Id="EnumType" Index="-1" />
+        <ColumnInfo Id="Value" Index="-1" />
+        <ColumnInfo Id="ParameterName" Width="110" />
+        <ColumnInfo Id="ParameterValue" Width="124" Index="1" />
+      </Columns>
+    </ListView>
+    <DetailView Id="DoSoReportSchedule_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="Autoe5588daf-2e58-4706-bc5a-1f4ba75de6d8">
+              <LayoutGroup Id="Item4">
+                <LayoutItem Id="ReportDefinition" ViewItem="ReportDefinition" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="ReportExecution_DetailView">
+      <Items Id="Items">
+        <PropertyEditor Id="ReportDefinition.QueryParametersCollection" PropertyName="ReportDefinition.QueryParametersCollection" View="ReportDefinition_QueryParametersCollection_ListView" />
+        <PropertyEditor Id="ReportDefinition.Description" PropertyName="ReportDefinition.Description" />
+      </Items>
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ReportExecution">
+              <LayoutItem Id="ReportDefinition" RelativeSize="100" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>

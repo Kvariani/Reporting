@@ -7,7 +7,7 @@ using System.Linq;
 namespace DoSo.Reporting.BusinessObjects.SMS
 {
     //[DefaultClassOptions]
-    [NavigationItem("Reports")]
+    //[NavigationItem("Reports")]
     //[ImageName("BO_Contact")]
     [DefaultProperty("SmsText")]
     [CreatableItem(false)]

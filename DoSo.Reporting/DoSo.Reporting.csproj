@@ -148,6 +148,12 @@
     <Compile Include="BusinessObjects\Email\DoSoEmailSchedule.cs" />
     <Compile Include="BusinessObjects\NewXPLiteObjectEx.cs" />
     <Compile Include="BusinessObjects\Email\ScheduleQueryParameter.cs" />
+    <Compile Include="Controllers\DefaultDashboardWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\DefaultDashboardViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\EditReportController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -167,6 +173,12 @@
     </Compile>
     <Compile Include="Controllers\ReportExecutionViewController.Designer.cs">
       <DependentUpon>ReportExecutionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ReportsNavigationController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ReportsNavigationController.Designer.cs">
+      <DependentUpon>ReportsNavigationController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\SpreadSheetController.cs">
       <SubType>Component</SubType>
