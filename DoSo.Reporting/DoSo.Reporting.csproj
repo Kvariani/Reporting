@@ -168,16 +168,16 @@
     </Compile>
     <Compile Include="BusinessObjects\SMS\DoSoSms.cs" />
     <Compile Include="BusinessObjects\SMS\DoSoSmsSchedule.cs" />
-    <Compile Include="Controllers\ReportExecutionViewController.cs">
+    <Compile Include="Controllers\Report\ReportExecutionViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ReportExecutionViewController.Designer.cs">
+    <Compile Include="Controllers\Report\ReportExecutionViewController.Designer.cs">
       <DependentUpon>ReportExecutionViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ReportsNavigationController.cs">
+    <Compile Include="Controllers\Report\ReportsNavigationController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ReportsNavigationController.Designer.cs">
+    <Compile Include="Controllers\Report\ReportsNavigationController.Designer.cs">
       <DependentUpon>ReportsNavigationController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\SpreadSheetController.cs">

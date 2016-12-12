@@ -52,7 +52,7 @@ namespace DoSo.Reporting.BusinessObjects.Reporting
         public static DoSoSheetFrom CreateSheetForm()
         {
             var sheetForm = new DoSoSheetFrom(true);
-            
+
             sheetForm.spreadsheetControl1.Options.DataSourceWizard.EnableCustomSql = true;
 
             ISpreadsheetCommandFactoryService service = sheetForm.spreadsheetControl1.GetService(typeof(ISpreadsheetCommandFactoryService)) as ISpreadsheetCommandFactoryService;
@@ -231,7 +231,7 @@ namespace DoSo.Reporting.BusinessObjects.Reporting
             }
         }
 
-        public void MaybeFast(ReportExecution reportExecution, DetailView view, XafApplication applciation)
+        public void MaybeFast(ReportExecution reportExecution, DetailView view, XafApplication applciation, bool showMeResult = false)
         {
             var objectSpace = applciation.CreateObjectSpace() as XPObjectSpace;
             var report = objectSpace.Session.Query<DoSoReport>().FirstOrDefault();
@@ -247,8 +247,16 @@ namespace DoSo.Reporting.BusinessObjects.Reporting
                     outDocument = ExportFromExcelDataSource(control.Document.MailMergeDataSource as ExcelDataSource, control);
 
                 outDocument.Worksheets.RemoveAt(0);
+
                 var fullName = Path.Combine(@"C:\Users\Beka\Desktop\New folder", HS.MyTempName + ".Xlsx");
                 outDocument.SaveDocument(fullName);
+
+                if (showMeResult)
+                    using (var sheetForm = new DoSoSheetFrom(false))
+                    {
+                        sheetForm.spreadsheetControl1.LoadDocument(fullName);
+                        sheetForm.ShowDialog();
+                    }
             }
         }
 

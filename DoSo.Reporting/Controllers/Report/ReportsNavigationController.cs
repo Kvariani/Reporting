@@ -65,7 +65,9 @@ namespace DoSo.Reporting.Controllers
                 param.TargetWindow = TargetWindow.NewModalWindow;
                 var co = param.Controllers;
                 var dialogControler = new DialogController();
-                dialogControler.CancelAction.Executing += CancelAction_Executing;
+                dialogControler.CancelAction.Caption = "Prevew";
+                dialogControler.AcceptAction.Caption = "Download";
+                dialogControler.CancelAction.Executing += (s, ee) => CancelAction_Executing(s, ee, objectToShow);
                 param.Controllers.Add(dialogControler);
                 dialogControler.AcceptAction.Executing += (s, ee) => AcceptAction_Executing(s, ee, objectToShow);
                 param.CreatedView.ControlsCreated += (s, ee) => CreatedView_ControlsCreated(s, ee, objectSpace.GetObject(e.ActionArguments.SelectedChoiceActionItem.Data) as DoSoReport);
@@ -73,9 +75,11 @@ namespace DoSo.Reporting.Controllers
             }
         }
 
-        private void CancelAction_Executing(object sender, CancelEventArgs e)
+        private void CancelAction_Executing(object sender, CancelEventArgs e, ReportExecution exec)
         {
             e.Cancel = true;
+            var view = (sender as SimpleAction).SelectionContext as DetailView;
+            exec.DoSoReport.MaybeFast(exec, view, Application, true);
         }
 
         private void AcceptAction_Executing(object sender, CancelEventArgs e, ReportExecution exec)
@@ -83,6 +87,7 @@ namespace DoSo.Reporting.Controllers
             var view = (sender as SimpleAction).SelectionContext as DetailView;
             exec.DoSoReport.MaybeFast(exec, view, Application);
             e.Cancel = true;
+            view.Close();
         }
 
         private void CreatedView_ControlsCreated(object sender, EventArgs e, DoSoReport report)

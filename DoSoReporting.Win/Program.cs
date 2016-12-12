@@ -46,6 +46,7 @@ namespace DoSoReporting.Win
                 winApplication.DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
             }
 
+            //XpoDefault.DataLayer = XpoDefault.GetDataLayer(winApplication.ConnectionString, DevExpress.Xpo.DB.AutoCreateOption.SchemaAlreadyExists);
             XpoDefault.DataLayer = XpoDefault.GetDataLayer(winApplication.ConnectionString, DevExpress.Xpo.DB.AutoCreateOption.SchemaAlreadyExists);
 
             System.Threading.Tasks.Task.Run(() => HS.InitializeConfigItems());
