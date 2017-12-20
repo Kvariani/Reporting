@@ -22,8 +22,8 @@ namespace DoSo.Reporting.Controllers
             Frame.GetController<ResetViewSettingsController>()?.Active.SetItemValue("", false);
             Frame.GetController<ShowAllContextsController>().ValidateAction.Active.SetItemValue("", false);
             Frame.GetController<LinkUnlinkController>().Active.SetItemValue("", false);
-            Frame.GetController<CloseWindowController>().Active.SetItemValue("", false);
-            Frame.GetController<OpenObjectController>().Active.SetItemValue("", false);
+            Frame.GetController<CloseWindowController>()?.Active?.SetItemValue("", false);
+            Frame.GetController<OpenObjectController>()?.Active?.SetItemValue("", false);
         }
     }
 }

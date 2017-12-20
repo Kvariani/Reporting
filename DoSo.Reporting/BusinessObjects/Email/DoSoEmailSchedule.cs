@@ -226,11 +226,13 @@ namespace DoSo.Reporting.BusinessObjects
         public override List<DoSoMessageBase> GenerateMessages(Session session, bool prevewOnly = false)
         {
             base.GenerateMessages(session);
-            var itemsList = GetObjectsFromDataSource();
-            var properties = session.GetProperties(itemsList.FirstOrDefault().ClassInfo);
+            //var itemsList = GetObjectsFromDataSource();
+            var item = this;
+            var properties = session.GetProperties(/*itemsList.FirstOrDefault()*/item.ClassInfo);
             var emails = new List<DoSoMessageBase>();
 
-            foreach (var item in itemsList)
+
+            //foreach (var item in itemsList)
             {
                 var email = new DoSoEmail(session)
                 {
@@ -294,7 +296,16 @@ namespace DoSo.Reporting.BusinessObjects
                         sr.Write(definitionXml);
                         sr.Flush();
                         ms.Position = 0;
-                        viewver.LoadDashboard(ms);
+                        try
+                        {
+                            viewver.LoadDashboard(ms);
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw;
+                        }
+                        
                         viewver.Size = new System.Drawing.Size(width, height);
 
                         if (!prevewOnly)

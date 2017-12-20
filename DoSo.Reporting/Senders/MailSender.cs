@@ -30,7 +30,7 @@ namespace DoSo.Reporting.Senders
 
                         foreach (var message2Send in allMessage2Send)
                         {
-                            if (HS.EnableMailSender)
+                            if (!HS.EnableMailSender)
                                 return;
                             Send(message2Send, unitOfWork);
                             unitOfWork.CommitChanges();
@@ -60,28 +60,36 @@ namespace DoSo.Reporting.Senders
             {
                 using (var mail = new MailMessage())
                 {
-                    var fullPath = Path.Combine(email.FolderPath, "HtmlContent");
-                    var strHTML = File.ReadAllText(fullPath);
-                    strHTML = strHTML.Replace("HtmlContent" + "_files/", "");
-                    strHTML = strHTML.Replace("src=\"", "src=cid:");
-                    strHTML = strHTML.Replace("gif\"", "gif");
-                    strHTML = strHTML.Replace("png\"", "png");
-                    strHTML = strHTML.Replace("jpg\"", "jpg");
 
-                    var avHtml = AlternateView.CreateAlternateViewFromString(strHTML, Encoding.Unicode, MediaTypeNames.Text.Html);
-                    mail.AlternateViews.Add(avHtml);
-                    var di = new DirectoryInfo(fullPath + "_files");
-                    var files = di.GetFiles("*.*");
 
-                    foreach (var item in files)
+                    try
                     {
-                        var fileMimeType = GetMimeType(item.Name);
-                        //using (var pic1 = new LinkedResource(String.Format("{0}\\{1}", di.FullName, item.Name), new ContentType(fileMimeType)))
-                        //{
-                        var pic1 = new LinkedResource($"{di.FullName}\\{item.Name}", new ContentType(fileMimeType)) { ContentId = item.Name };
-                        avHtml.LinkedResources.Add(pic1);
-                        //}
+                        var fullPath = Path.Combine(email.FolderPath, "HtmlContent");
+                        var strHTML = File.ReadAllText(fullPath);
+                        strHTML = strHTML.Replace("HtmlContent" + "_files/", "");
+                        strHTML = strHTML.Replace("src=\"", "src=cid:");
+                        strHTML = strHTML.Replace("gif\"", "gif");
+                        strHTML = strHTML.Replace("png\"", "png");
+                        strHTML = strHTML.Replace("jpg\"", "jpg");
+
+                        var avHtml = AlternateView.CreateAlternateViewFromString(strHTML, Encoding.Unicode, MediaTypeNames.Text.Html);
+                        mail.AlternateViews.Add(avHtml);
+
+                        var di = new DirectoryInfo(fullPath + "_files");
+                        var files = di.GetFiles("*.*");
+
+                        foreach (var item in files)
+                        {
+                            var fileMimeType = GetMimeType(item.Name);
+                            //using (var pic1 = new LinkedResource(String.Format("{0}\\{1}", di.FullName, item.Name), new ContentType(fileMimeType)))
+                            //{
+                            var pic1 = new LinkedResource($"{di.FullName}\\{item.Name}", new ContentType(fileMimeType)) { ContentId = item.Name };
+                            avHtml.LinkedResources.Add(pic1);
+                            //}
+                        }
                     }
+                    catch (Exception) { }
+
 
                     if (!string.IsNullOrEmpty(email.SourceFilePath))
                     {
@@ -95,7 +103,7 @@ namespace DoSo.Reporting.Senders
                         }
                     }
 
-                    mail.From = new MailAddress(email.EmailTo);
+                    mail.From = new MailAddress(HS.EMailFrom);
 
                     var tos = email.EmailTo.Split(';');
                     foreach (var item in tos.Where(x => x.Length > 2))
@@ -118,9 +126,9 @@ namespace DoSo.Reporting.Senders
 
                     using (var client = new SmtpClient(HS.SmtpServer, HS.SmtpPort))
                     {
-                        client.EnableSsl = true;
+                        client.EnableSsl = HS.EnableSsl;
                         //DeliveryMethod = SmtpDeliveryMethod.Network,
-                        client.UseDefaultCredentials = false;
+                        client.UseDefaultCredentials = HS.UseDefaultCredentials;
                         client.Credentials = new NetworkCredential(HS.SmtpUserName, HS.SmtpPassword);
                         client.Timeout = 50000;
                         client.Send(mail);

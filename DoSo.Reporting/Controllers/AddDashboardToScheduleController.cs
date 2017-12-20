@@ -39,7 +39,7 @@ namespace DoSo.Reporting.Controllers
         {
             var form = new DashboardDesignerForm();
 
-            var xml = ViewCurrentObject.Dashboard.Xml;
+            var xml = ViewCurrentObject.Dashboard?.Xml;
 
             if (string.IsNullOrWhiteSpace(xml))
                 CreateNewDashboard(form);

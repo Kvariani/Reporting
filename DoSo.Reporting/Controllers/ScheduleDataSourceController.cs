@@ -117,7 +117,7 @@ namespace DoSoReporting.Module.Controllers
 
     public class CustomQueryPage : ConfigureQueryPage<XtraReportModel>
     {
-        public CustomQueryPage(IConfigureQueryPageView view, IWizardRunnerContext context, SqlWizardOptions options, IDBSchemaProvider dbSchemaProvider, IParameterService parameterService, ICustomQueryValidator customQueryValidator) : base(view, context, options, dbSchemaProvider, parameterService, customQueryValidator)
+        public CustomQueryPage(IConfigureQueryPageView view, IWizardRunnerContext context, SqlWizardOptions options, IDBSchemaProvider dbSchemaProvider, IParameterService parameterService, ICustomQueryValidator customQueryValidator) : base(view, context, options, /*dbSchemaProvider*/null, parameterService, customQueryValidator)
         {
 
         }
@@ -144,8 +144,8 @@ namespace DoSoReporting.Module.Controllers
     {
         public ConfigureQueryPageViewEx(IDisplayNameProvider displayNameProvider, IServiceProvider propertyGridServices, ICustomQueryValidator customQueryValidator, SqlWizardOptions options) : base(displayNameProvider, propertyGridServices, customQueryValidator, SqlWizardOptions.EnableCustomSql)
         {
-            
-            
+
+
         }
 
     }
@@ -155,11 +155,11 @@ namespace DoSoReporting.Module.Controllers
         public CustomChooseDataSourceTypePageView(DataSourceTypes dataSourceTypes) : base(dataSourceTypes)
         {
         }
-        protected override void InitializeGallery(GalleryItemGroup galleryItemGroup)
-        {
-            base.InitializeGallery(galleryItemGroup);
-            galleryItemGroup.Items.RemoveAt(1);
-            galleryItemGroup.Items.RemoveAt(1);
-        }
+        //protected override void InitializeGallery(GalleryItemGroup galleryItemGroup)
+        //{
+        //    base.InitializeGallery(galleryItemGroup);
+        //    galleryItemGroup.Items.RemoveAt(1);
+        //    galleryItemGroup.Items.RemoveAt(1);
+        //}
     }
 }

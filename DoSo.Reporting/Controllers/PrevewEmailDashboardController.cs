@@ -32,7 +32,7 @@ namespace DoSo.Reporting.Controllers
 
         private void simpleAction_PrevewDashboard_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            ViewCurrentObject.DoSoReportSchedule.GenerateDashboard(ViewCurrentObject, true);
+            ViewCurrentObject?.DoSoReportSchedule?.GenerateDashboard(ViewCurrentObject, true);
         }
 
         //public void ExportDashboard()

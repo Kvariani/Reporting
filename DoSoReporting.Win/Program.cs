@@ -8,6 +8,7 @@ using DevExpress.ExpressApp.Win;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
+using DevExpress.DataAccess.Sql;
 
 namespace DoSoReporting.Win
 {
@@ -22,6 +23,7 @@ namespace DoSoReporting.Win
 #if EASYTEST
             DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
 #endif
+            SqlDataSource.DisableCustomQueryValidation = true;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             EditModelPermission.AlwaysGranted = System.Diagnostics.Debugger.IsAttached;

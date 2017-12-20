@@ -23,6 +23,7 @@ using DoSo.MessageSendService;
 using DoSo.Reporting.Senders;
 using DoSo.Reporting.Generators;
 using DoSo.Reporting.BusinessObjects;
+using DevExpress.DataAccess.Sql;
 
 namespace DoSoMessageSendService
 {
@@ -36,6 +37,7 @@ namespace DoSoMessageSendService
 
         static void Main(string[] args)
         {
+            SqlDataSource.DisableCustomQueryValidation = true;
             XpoDefault.TrackPropertiesModifications = true;
             //SafePostgreSqlConnectionProvider.Register();
             var connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
