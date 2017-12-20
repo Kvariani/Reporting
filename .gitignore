@@ -14,3 +14,7 @@
 /MessageSending/DoSoMessageSendService/obj/Debug
 bin/
 obj/
+/.vs/DoSoReporting/v15/Server/sqlite3/db.lock
+/.vs/DoSoReporting/v15/Server/sqlite3/storage.ide
+/.vs/DoSoReporting/v15/Server/sqlite3/storage.ide-shm
+/.vs/DoSoReporting/v15/Server/sqlite3/storage.ide-wal
