@@ -8,6 +8,7 @@ namespace DoSo.Reporting.BusinessObjects.Base
 {
     //[DefaultClassOptions]
     //[NavigationItem("Reports")]
+    [DefaultClassOptions]
     public class DoSoMessageBase : NewXPLiteObjectEx
     {
         public DoSoMessageBase(Session session) : base(session) { }

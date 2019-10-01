@@ -18,3 +18,6 @@ obj/
 /.vs/DoSoReporting/v15/Server/sqlite3/storage.ide
 /.vs/DoSoReporting/v15/Server/sqlite3/storage.ide-shm
 /.vs/DoSoReporting/v15/Server/sqlite3/storage.ide-wal
+/.vs/DoSoReporting/v16
+/.vs/DoSoReporting/config
+/packages

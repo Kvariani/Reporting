@@ -288,7 +288,7 @@ namespace DoSo.Reporting.BusinessObjects
                 viewver.Dock = System.Windows.Forms.DockStyle.Fill;
                 using (var ms = new MemoryStream())
                 {
-                    using (var sr = new StreamWriter(ms, Encoding.Default))
+                    using (var sr = new StreamWriter(ms, Encoding.UTF8))
                     {
                         var doc = new XmlDocument();
                         doc.LoadXml(dashboardXml);

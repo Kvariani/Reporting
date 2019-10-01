@@ -11,6 +11,7 @@ namespace DoSo.Reporting.BusinessObjects.Email
     //[NavigationItem("Reports")]
     [DefaultProperty("EmailSubject")]
     [CreatableItem(false)]
+    [DefaultClassOptions]
     public class DoSoEmail : DoSoMessageBase
     {
         public DoSoEmail(Session session) : base(session) { }

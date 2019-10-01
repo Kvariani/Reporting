@@ -49,7 +49,7 @@ namespace DoSoReporting.Win
             }
 
             //XpoDefault.DataLayer = XpoDefault.GetDataLayer(winApplication.ConnectionString, DevExpress.Xpo.DB.AutoCreateOption.SchemaAlreadyExists);
-            XpoDefault.DataLayer = XpoDefault.GetDataLayer(winApplication.ConnectionString, DevExpress.Xpo.DB.AutoCreateOption.SchemaAlreadyExists);
+            XpoDefault.DataLayer = XpoDefault.GetDataLayer(winApplication.ConnectionString, DevExpress.Xpo.DB.AutoCreateOption.DatabaseAndSchema);
 
             System.Threading.Tasks.Task.Run(() => HS.InitializeConfigItems());
 

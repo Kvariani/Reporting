@@ -93,7 +93,7 @@ namespace DoSo.Reporting.Controllers
             {
                 e.Dashboard.SaveToXml(ms);
                 ms.Position = 0;
-                using (var sr = new StreamReader(ms, Encoding.Default))
+                using (var sr = new StreamReader(ms, Encoding.UTF8))
                 {
                     var xml = sr.ReadToEnd();
                     if (ViewCurrentObject.Dashboard == null)

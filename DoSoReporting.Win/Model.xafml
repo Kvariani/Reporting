@@ -16,7 +16,18 @@
         <StaticImage Id="Logo" ImageName="ExpressAppLogo" />
       </Items>
     </DetailView>
-    <ListView Id="DoSoEmail_ListView">
+    <ListView Id="DoSoMessageBase_ListView" DataAccessMode="InstantFeedback">
+      <Columns>
+        <ColumnInfo Id="ExpiredOn" Width="64" Index="0" />
+        <ColumnInfo Id="CreatedOn" Width="64" Index="1" />
+        <ColumnInfo Id="SendingDate" Width="136" Index="2" />
+        <ColumnInfo Id="SentDate" Width="322" Index="3" />
+        <ColumnInfo Id="SendingDate" Width="61" Index="4" />
+        <ColumnInfo Id="ObjectTypeName" Width="129" Index="5" />
+        <ColumnInfo Id="ObjectType" Width="64" Index="6" />
+      </Columns>
+    </ListView>
+    <ListView Id="DoSoEmail_ListView" DataAccessMode="InstantFeedback">
       <Columns>
         <ColumnInfo Id="EmailTo" Width="64" Index="0" />
         <ColumnInfo Id="EmailCC" Width="64" Index="1" />

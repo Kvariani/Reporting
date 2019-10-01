@@ -5,9 +5,11 @@ using DevExpress.ExpressApp.Web;
 using System.Collections.Generic;
 using DevExpress.ExpressApp.Xpo;
 
-namespace DoSoReporting.Web {
+namespace DoSoReporting.Web
+{
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/DevExpressExpressAppWebWebApplicationMembersTopicAll.aspx
-    public partial class DoSoReportingAspNetApplication : WebApplication {
+    public partial class DoSoReportingAspNetApplication : WebApplication
+    {
         private DevExpress.ExpressApp.SystemModule.SystemModule module1;
         private DevExpress.ExpressApp.Web.SystemModule.SystemAspNetModule module2;
         private DoSoReporting.Module.DoSoReportingModule module3;
@@ -37,58 +39,71 @@ namespace DoSoReporting.Web {
         private DevExpress.ExpressApp.Validation.Web.ValidationAspNetModule validationAspNetModule;
         private DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule viewVariantsModule;
 
-        public DoSoReportingAspNetApplication() {
+        public DoSoReportingAspNetApplication()
+        {
             InitializeComponent();
             LinkNewObjectToParentImmediately = false;
         }
-        protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args) {
+        protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
+        {
             args.ObjectSpaceProvider = new XPObjectSpaceProvider(GetDataStoreProvider(args.ConnectionString, args.Connection), true);
             args.ObjectSpaceProviders.Add(new NonPersistentObjectSpaceProvider(TypesInfo, null));
         }
-        private IXpoDataStoreProvider GetDataStoreProvider(string connectionString, System.Data.IDbConnection connection) {
+        private IXpoDataStoreProvider GetDataStoreProvider(string connectionString, System.Data.IDbConnection connection)
+        {
             System.Web.HttpApplicationState application = (System.Web.HttpContext.Current != null) ? System.Web.HttpContext.Current.Application : null;
             IXpoDataStoreProvider dataStoreProvider = null;
-            if(application != null && application["DataStoreProvider"] != null) {
+            if (application != null && application["DataStoreProvider"] != null)
+            {
                 dataStoreProvider = application["DataStoreProvider"] as IXpoDataStoreProvider;
             }
-            else {
-                if(!String.IsNullOrEmpty(connectionString)) {
+            else
+            {
+                if (!String.IsNullOrEmpty(connectionString))
+                {
                     connectionString = DevExpress.Xpo.XpoDefault.GetConnectionPoolString(connectionString);
                     dataStoreProvider = new ConnectionStringDataStoreProvider(connectionString, true);
                 }
-                else if(connection != null) {
+                else if (connection != null)
+                {
                     dataStoreProvider = new ConnectionDataStoreProvider(connection);
                 }
-                if(application != null) {
+                if (application != null)
+                {
                     application["DataStoreProvider"] = dataStoreProvider;
                 }
             }
-			return dataStoreProvider;
+            return dataStoreProvider;
         }
-        private void DoSoReportingAspNetApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e) {
+        private void DoSoReportingAspNetApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
+        {
 #if EASYTEST
             e.Updater.Update();
             e.Handled = true;
 #else
-            if(System.Diagnostics.Debugger.IsAttached) {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
                 e.Updater.Update();
                 e.Handled = true;
             }
-            else {
-				string message = "The application cannot connect to the specified database, " +
-					"because the database doesn't exist, its version is older " +
-					"than that of the application or its schema does not match " +
-					"the ORM data model structure. To avoid this error, use one " +
-					"of the solutions from the https://www.devexpress.com/kb=T367835 KB Article.";
+            else
+            {
+                string message = "The application cannot connect to the specified database, " +
+                    "because the database doesn't exist, its version is older " +
+                    "than that of the application or its schema does not match " +
+                    "the ORM data model structure. To avoid this error, use one " +
+                    "of the solutions from the https://www.devexpress.com/kb=T367835 KB Article.";
 
-                if(e.CompatibilityError != null && e.CompatibilityError.Exception != null) {
+                if (e.CompatibilityError != null && e.CompatibilityError.Exception != null)
+                {
                     message += "\r\n\r\nInner exception: " + e.CompatibilityError.Exception.Message;
                 }
                 throw new InvalidOperationException(message);
             }
 #endif
         }
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             this.module1 = new DevExpress.ExpressApp.SystemModule.SystemModule();
             this.module2 = new DevExpress.ExpressApp.Web.SystemModule.SystemAspNetModule();
             this.module3 = new DoSoReporting.Module.DoSoReportingModule();
@@ -140,31 +155,34 @@ namespace DoSoReporting.Web {
             this.Modules.Add(this.module2);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.module4);
-            this.Modules.Add(this.auditTrailModule);
-            this.Modules.Add(this.objectsModule);
-            this.Modules.Add(this.chartModule);
-            this.Modules.Add(this.chartAspNetModule);
-            this.Modules.Add(this.cloneObjectModule);
-            this.Modules.Add(this.conditionalAppearanceModule);
-            this.Modules.Add(this.fileAttachmentsAspNetModule);
-            this.Modules.Add(this.htmlPropertyEditorAspNetModule);
-            //this.Modules.Add(this.kpiModule);
-            this.Modules.Add(this.notificationsModule);
-            this.Modules.Add(this.notificationsAspNetModule);
-            this.Modules.Add(this.pivotChartModuleBase);
-            this.Modules.Add(this.pivotChartAspNetModule);
-            this.Modules.Add(this.pivotGridModule);
-            this.Modules.Add(this.pivotGridAspNetModule);
-            this.Modules.Add(this.reportsModuleV2);
-            this.Modules.Add(this.reportsAspNetModuleV2);
-            this.Modules.Add(this.scriptRecorderModuleBase);
-            this.Modules.Add(this.scriptRecorderAspNetModule);
-            this.Modules.Add(this.treeListEditorsModuleBase);
-            this.Modules.Add(this.treeListEditorsAspNetModule);
-            this.Modules.Add(this.validationModule);
-            this.Modules.Add(this.validationAspNetModule);
-            this.Modules.Add(this.viewVariantsModule);
+
             this.Modules.Add(new DoSo.Reporting.ReportingModule());
+
+            //this.Modules.Add(this.auditTrailModule);
+            //this.Modules.Add(this.objectsModule);
+            //this.Modules.Add(this.chartModule);
+            //this.Modules.Add(this.chartAspNetModule);
+            //this.Modules.Add(this.cloneObjectModule);
+            //this.Modules.Add(this.conditionalAppearanceModule);
+            //this.Modules.Add(this.fileAttachmentsAspNetModule);
+            //this.Modules.Add(this.htmlPropertyEditorAspNetModule);
+            ////this.Modules.Add(this.kpiModule);
+            //this.Modules.Add(this.notificationsModule);
+            //this.Modules.Add(this.notificationsAspNetModule);
+            //this.Modules.Add(this.pivotChartModuleBase);
+            //this.Modules.Add(this.pivotChartAspNetModule);
+            //this.Modules.Add(this.pivotGridModule);
+            //this.Modules.Add(this.pivotGridAspNetModule);
+            //this.Modules.Add(this.reportsModuleV2);
+            //this.Modules.Add(this.reportsAspNetModuleV2);
+            //this.Modules.Add(this.scriptRecorderModuleBase);
+            //this.Modules.Add(this.scriptRecorderAspNetModule);
+            //this.Modules.Add(this.treeListEditorsModuleBase);
+            //this.Modules.Add(this.treeListEditorsAspNetModule);
+            //this.Modules.Add(this.validationModule);
+            //this.Modules.Add(this.validationAspNetModule);
+            //this.Modules.Add(this.viewVariantsModule);
+            //this.Modules.Add(new DoSo.Reporting.ReportingModule());
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.DoSoReportingAspNetApplication_DatabaseVersionMismatch);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
 

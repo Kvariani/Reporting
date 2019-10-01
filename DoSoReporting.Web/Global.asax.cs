@@ -22,10 +22,18 @@ namespace DoSoReporting.Web
         protected void Application_Start(Object sender, EventArgs e)
         {
             ASPxWebControl.CallbackError += new EventHandler(Application_Error);
+
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 #if EASYTEST
             DevExpress.ExpressApp.Web.TestScripts.TestScriptsManager.EasyTestEnabled = true;
 #endif
         }
+
+        private void CurrentDomain_FirstChanceException(object sender, System.Runtime.ExceptionServices.FirstChanceExceptionEventArgs e)
+        {
+            
+        }
+
         protected void Session_Start(Object sender, EventArgs e)
         {
             Tracing.Initialize();

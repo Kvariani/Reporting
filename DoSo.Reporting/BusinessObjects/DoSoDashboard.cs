@@ -68,7 +68,7 @@ namespace DoSo.Reporting.BusinessObjects
             else
                 using (var ms = new MemoryStream())
                 {
-                    using (var sr = new StreamWriter(ms, Encoding.Default))
+                    using (var sr = new StreamWriter(ms, Encoding.UTF8))
                     {
                         var doc = new XmlDocument();
                         doc.LoadXml(Xml);
@@ -87,7 +87,13 @@ namespace DoSo.Reporting.BusinessObjects
         {
             var dashboard = new Dashboard();
             LoadFromXml(Xml, dashboard);
+            dashboard.ValidateCustomSqlQuery += Dashboard_ValidateCustomSqlQuery;
             return dashboard;
+        }
+
+        private void Dashboard_ValidateCustomSqlQuery(object sender, ValidateDashboardCustomSqlQueryEventArgs e)
+        {
+            e.Valid = true;
         }
 
         static void LoadFromXml(string xml, Dashboard dashboard)
@@ -123,7 +129,7 @@ namespace DoSo.Reporting.BusinessObjects
             {
                 e.Dashboard.SaveToXml(ms);
                 ms.Position = 0;
-                using (var sr = new StreamReader(ms, Encoding.Default))
+                using (var sr = new StreamReader(ms, Encoding.UTF8))
                 {
                     var xml = sr.ReadToEnd();
                     Xml = xml;
